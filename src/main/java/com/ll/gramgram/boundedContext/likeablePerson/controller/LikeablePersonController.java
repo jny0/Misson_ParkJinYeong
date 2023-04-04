@@ -9,12 +9,14 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -62,17 +64,19 @@ public class LikeablePersonController {
         return "usr/likeablePerson/list";
     }
 
-    // @PreAuthorize("isAuthenticated()")
+
     @GetMapping("/delete/{id}")
     public String likeablePersonDelete(Principal principal, @PathVariable("id") Long id) {
         InstaMember instaMember = rq.getMember().getInstaMember();
         LikeablePerson likeablePerson = this.likeablePersonService.findById(id).get(0);
 
-//        if (!rq.getMember().getUsername().equals(principal.getName())) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
-//        }
+        // 삭제 항목 소유권 체크
+        // 현재 로그인한 회원의 인스타 정보와 삭제하려는 상대를 등록한 회원의 인스타 정보가 같지 않으면 오류
+        if (!likeablePerson.getFromInstaMember().equals(instaMember)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+        }
 
-        RsData<LikeablePerson> deleteData = this.likeablePersonService.delete(likeablePerson);
-        return rq.redirectWithMsg("/likeablePerson/list", deleteData);
+        RsData<LikeablePerson> deleteRsData = this.likeablePersonService.delete(likeablePerson);
+        return rq.redirectWithMsg("/likeablePerson/list", deleteRsData);
     }
 }
