@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### 앱 키 등 중요 정보###
+application-config.yml

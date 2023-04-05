@@ -1,4 +1,7 @@
 spring:
+  config:
+    import:
+      - classpath:/application-config.yml
   profiles:
     active: dev
   datasource:
@@ -11,15 +14,16 @@ spring:
       client:
         registration:
           kakao:
-            clientId:
+            clientId: ${kakao-client-id}
             scope:
             client-name: Kakao
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             client-authentication-method: POST
           google:
-            clientId:
-            clientSecret:
+            clientId: ${google-client-id}
+            clientSecret: ${google-client-secret}
+            client-name: Google
             scope: profile,email
             redirect-uri: http://localhost:8080/login/oauth2/code/google
         provider:
