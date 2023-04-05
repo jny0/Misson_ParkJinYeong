@@ -7,7 +7,22 @@
 <body>
 
 <main layout:fragment="main">
-    메인입니다.
+    <div class="hero min-h-screen bg-base-200">
+        <div class="hero-content text-center">
+            <div class="max-w-md">
+                <div th:if="${@rq.login}">
+                    <span  th:text="|${@rq.member.username}님 안녕하세요!|" style="font-size:1.5em"></span>
+                </div>
+                <div th:if="${@rq.logout}">
+                    <h1 class="text-5xl font-bold">환영합니다</h1>
+                    <p class="py-6">회원가입 또는 로그인하고 그램그램 서비스를 이용해보세요.</p>
+                    <a class="btn btn-primary" href="/member/join">회원가입</a>
+                    <a class="btn btn-primary" href="/member/login">로그인</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </main>
 
 </body>

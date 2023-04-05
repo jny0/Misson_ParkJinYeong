@@ -11,6 +11,6 @@ html > body {
     word-break: keep-all;
 }
 
-.toast-top-right {
+.toast-top-center {
     top:10%;
 }
