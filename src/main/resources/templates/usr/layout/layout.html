@@ -1,4 +1,4 @@
-<html>
+<html data-theme="cupcake">
 
 <head>
 
@@ -30,15 +30,28 @@
 
 <!-- 공통 상단 -->
 <header>
-    <a href="/" class="btn btn-link">메인</a>
-    <a href="/member/login" th:if="${@rq.logout}" class="btn btn-link">로그인</a>
-    <a href="/member/join" th:if="${@rq.logout}" class="btn btn-link">회원가입</a>
-    <a href="/member/me" th:if="${@rq.login}" class="btn btn-link">내 정보</a>
-    <a href="/instaMember/connect" th:if="${@rq.login}" class="btn btn-link">본인의 인스타그램 정보 입력</a>
-    <a href="/likeablePerson/add" th:if="${@rq.login}" class="btn btn-link">호감표시</a>
-    <a href="/likeablePerson/list" th:if="${@rq.login}" class="btn btn-link">호감목록</a>
-    <a href="javascript:;" th:if="${@rq.login}" onclick="$(this).next().submit();" class="btn btn-link">로그아웃</a>
-    <form th:if="${@rq.login}" hidden th:action="|/member/logout|" method="POST"></form>
+    <div class="navbar bg-primary text-primary-content">
+        <div class="flex-1">
+            <a href="/" class="btn btn-ghost normal-case text-xl ">그램그램</a>
+        </div>
+        <div class="flex-none">
+            <ul class="menu menu-horizontal px-1">
+                <li th:if="${@rq.login}">
+                    <a href="/member/me" class="btn btn-ghost">내 정보</a>
+                    <a href="/instaMember/connect" class="btn btn-ghost">인스타 등록</a>
+                    <a href="/likeablePerson/add" class="btn btn-ghost">호감표시</a>
+                    <a href="/likeablePerson/list"  class="btn btn-ghost">호감목록</a>
+                    <a href="javascript:;" onclick="$(this).next().submit();"  class="btn btn-ghost">로그아웃</a>
+                    <form th:if="${@rq.login}" hidden th:action="|/member/logout|" method="POST"></form>
+                </li>
+                <li th:if="${@rq.logout}">
+                    <a href="/member/join"  class="btn btn-ghost" >회원가입</a>
+                    <a href="/member/login" class="btn btn-ghost">로그인</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <span th:if="${@rq.login}" th:text="|${@rq.member.username}님 환영합니다.|"></span>
 </header>
 

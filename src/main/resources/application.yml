@@ -11,15 +11,14 @@ spring:
       client:
         registration:
           kakao:
-            clientId:
+
             scope:
             client-name: Kakao
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             client-authentication-method: POST
           google:
-            clientId:
-            clientSecret:
+
             scope: profile,email
             redirect-uri: http://localhost:8080/login/oauth2/code/google
         provider:
