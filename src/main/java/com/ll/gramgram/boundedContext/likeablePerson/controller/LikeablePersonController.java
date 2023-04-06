@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +21,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/likeablePerson")
 @RequiredArgsConstructor
+@PreAuthorize("isAuthenticated()")
 public class LikeablePersonController {
     private final Rq rq;
     private final LikeablePersonService likeablePersonService;
@@ -66,17 +69,25 @@ public class LikeablePersonController {
 
 
     @GetMapping("/delete/{id}")
-    public String likeablePersonDelete(Principal principal, @PathVariable("id") Long id) {
+    public String likeablePersonDelete(@PathVariable("id") Long id) {
         InstaMember instaMember = rq.getMember().getInstaMember();
-        LikeablePerson likeablePerson = this.likeablePersonService.findById(id).get(0);
+        LikeablePerson likeablePerson = likeablePersonService.findById(id).orElse(null);
+
+        if(likeablePerson == null) {
+            return rq.historyBack("이미 삭제된 항목입니다");
+        }
 
         // 삭제 항목 소유권 체크
         // 현재 로그인한 회원의 인스타 정보와 삭제하려는 상대를 등록한 회원의 인스타 정보가 같지 않으면 오류
-        if (!likeablePerson.getFromInstaMember().equals(instaMember)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+        // Objects.equals 객체의 주소를 비교
+        if (!Objects.equals(likeablePerson.getFromInstaMember().getId(), instaMember.getId())) {
+            return rq.historyBack("삭제 권한이 없습니다.");
         }
 
-        RsData<LikeablePerson> deleteRsData = this.likeablePersonService.delete(likeablePerson);
+        RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(likeablePerson);
+
+        if(deleteRsData.isFail()) return rq.historyBack((deleteRsData));
+
         return rq.redirectWithMsg("/likeablePerson/list", deleteRsData);
     }
 }

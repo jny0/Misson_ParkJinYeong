@@ -32,8 +32,7 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
-          google:
-            token-uri: https://oauth2.googleapis.com/token
+            ### 스프링시큐리티에서는 CommonOAuth2Provider클래스 안에 google, github 등의 플랫폼에 대한 provider 정보가 미리 정의가 되어있어 카카오나 네이버와 다르게 provider를 적어주지 않아도 됨 ###
   jpa:
     hibernate:
       ddl-auto: create

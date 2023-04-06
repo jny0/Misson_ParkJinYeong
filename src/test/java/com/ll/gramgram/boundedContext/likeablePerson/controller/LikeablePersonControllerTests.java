@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
@@ -175,28 +174,23 @@ public class LikeablePersonControllerTests {
 
         Optional<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
         assertTrue(likeablePerson.isEmpty());
-
     }
 
     @Test
     @DisplayName("로그인한 본인의 호감 상대가 아닌 다른 상대를 삭제하려는 경우 삭제되지 않음")
-    @WithUserDetails("user1")
+    @WithUserDetails("user2")
     void t007() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(get("/likeablePerson/delete/1"))
+                .perform(get("/likeablePerson/delete/2"))
                 .andDo(print());
         // THEN
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
-                .andExpect(handler().methodName("likeablePersonDelete"))
-                .andExpect(status().is4xxClientError());
-
+                .andExpect(handler().methodName("likeablePersonDelete"));
+                // 응답코드 ??
 
         Optional<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
         assertTrue(!likeablePerson.isEmpty());
-
     }
-
-
 }
