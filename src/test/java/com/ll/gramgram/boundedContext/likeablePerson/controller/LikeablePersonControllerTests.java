@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -49,7 +50,7 @@ public class LikeablePersonControllerTests {
                 .andExpect(handler().methodName("showAdd"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().string(containsString("""
-                        먼저 본인의 인스타그램 아이디를 입력해주세요.
+                        먼저 나의 인스타그램 계정을 등록해주세요.
                         """.stripIndent().trim())))
         ;
     }
@@ -143,13 +144,13 @@ public class LikeablePersonControllerTests {
                 .andExpect(handler().methodName("showList"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().string(containsString("""
-                        <span class="toInstaMember_username">insta_user4</span>
+                        <span class="toInstaMember_username">@insta_user4</span>
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
                         <span class="toInstaMember_attractiveTypeDisplayName">외모</span>
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
-                        <span class="toInstaMember_username">insta_user100</span>
+                        <span class="toInstaMember_username">@insta_user100</span>
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
                         <span class="toInstaMember_attractiveTypeDisplayName">성격</span>
@@ -172,7 +173,7 @@ public class LikeablePersonControllerTests {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("/likeablePerson/list**"));
 
-        List<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
+        Optional<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
         assertTrue(likeablePerson.isEmpty());
 
     }
@@ -192,7 +193,7 @@ public class LikeablePersonControllerTests {
                 .andExpect(status().is4xxClientError());
 
 
-        List<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
+        Optional<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
         assertTrue(!likeablePerson.isEmpty());
 
     }
