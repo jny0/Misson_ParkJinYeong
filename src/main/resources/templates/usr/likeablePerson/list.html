@@ -42,14 +42,17 @@
                                         </td>
                                         <td class="text-center">
                                             <a class="btn btn-circle btn-outline btn-sm"
-                                               th:href="@{|delete/${likeablePerson.id}|}"
-                                               onclick="return confirm('정말로 삭제하시겠습니까?');">
+                                               href="javascript:;"
+                                               onclick="if ( confirm('정말로 삭제하시겠습니까?') ) $(this).next().submit();">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
                                                      viewBox="0 0 12 12" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                           stroke-width="2" d="M3 9L9 3M3 3l6 6"/>
                                                 </svg>
                                             </a>
+                                            <form hidden th:action="@{|/likeablePerson/${likeablePerson.id}|}" method="POST">
+                                                <input type="hidden" name="_method" value="delete">
+                                            </form>
                                         </td>
                                     </tr>
                                 </li>

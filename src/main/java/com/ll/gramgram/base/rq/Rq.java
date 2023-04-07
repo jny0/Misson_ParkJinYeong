@@ -68,7 +68,8 @@ public class Rq {
         String referer = req.getHeader("referer");
         String key = "historyBackErrorMsg___" + referer;
         req.setAttribute("localStorageKeyAboutHistoryBackErrorMsg", key);
-        req.setAttribute("historyBackErrorMsg", msg);
+        req.setAttribute("historyBackErrorMsg", msg); //400 응답코드 지정
+        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         return "common/js";
     }
 

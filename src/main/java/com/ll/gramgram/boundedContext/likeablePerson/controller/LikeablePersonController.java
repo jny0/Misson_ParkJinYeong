@@ -13,10 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
@@ -68,8 +65,8 @@ public class LikeablePersonController {
     }
 
 
-    @GetMapping("/delete/{id}")
-    public String likeablePersonDelete(@PathVariable("id") Long id) {
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") Long id) {
         InstaMember instaMember = rq.getMember().getInstaMember();
         LikeablePerson likeablePerson = likeablePersonService.findById(id).orElse(null);
 

@@ -19,8 +19,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -158,17 +157,18 @@ public class LikeablePersonControllerTests {
     }
 
     @Test
-    @DisplayName("호감 상대 삭제 user3 -> user4, 삭제 후 호감 목록 페이지로 리다이렉트")
+    @DisplayName("호감 상대 삭제, 삭제 후 호감 목록 페이지로 리다이렉트")
     @WithUserDetails("user3")
     void t006() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(get("/likeablePerson/delete/1"))
+                .perform(delete("/likeablePerson/1")
+                        .with(csrf()))
                 .andDo(print());
         // THEN
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
-                .andExpect(handler().methodName("likeablePersonDelete"))
+                .andExpect(handler().methodName("delete"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("/likeablePerson/list**"));
 
@@ -177,18 +177,20 @@ public class LikeablePersonControllerTests {
     }
 
     @Test
-    @DisplayName("로그인한 본인의 호감 상대가 아닌 다른 상대를 삭제하려는 경우 삭제되지 않음")
+    @DisplayName("호감 상대 삭제 (권한 없음, 삭제 안됨)")
     @WithUserDetails("user2")
     void t007() throws Exception {
         // WHEN
         ResultActions resultActions = mvc
-                .perform(get("/likeablePerson/delete/2"))
+                .perform(delete("/likeablePerson/2")
+                        .with(csrf()))
                 .andDo(print());
         // THEN
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
-                .andExpect(handler().methodName("likeablePersonDelete"));
-                // 응답코드 ??
+                .andExpect(handler().methodName("delete"))
+                .andExpect(status().is4xxClientError())
+        ;
 
         Optional<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
         assertTrue(!likeablePerson.isEmpty());
