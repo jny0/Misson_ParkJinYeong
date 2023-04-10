@@ -251,4 +251,23 @@ public class LikeablePersonControllerTests {
                 .andExpect(status().is4xxClientError());
     }
 
+    @Test
+    @DisplayName("호감 상대 매력 수정(이미 등록한 상대를 다른 매력포인트로 등록할 경우)")
+    @WithUserDetails("user3")
+    void t010() throws Exception{
+        ResultActions resultActions = mvc
+                .perform(post("/likeablePerson/add")
+                        .with(csrf()) // CSRF 키 생성
+                        .param("username", "insta_user100")
+                        .param("attractiveTypeCode", "3")
+                )
+                .andDo(print());
+
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("add"))
+                .andExpect(status().is3xxRedirection());
+
+        assertThat(this.likeablePersonService.findById(2L).get().getAttractiveTypeCode()).isEqualTo(3);
+    }
 }
