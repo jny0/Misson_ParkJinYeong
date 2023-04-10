@@ -42,6 +42,11 @@ public class LikeablePersonController {
 
     @PostMapping("/add")
     public String add(@Valid AddForm addForm) {
+
+        if (rq.getMember().getInstaMember().getFromLikeablePeople().size() >= 11) {
+            return rq.historyBack("호감 상대는 10명까지만 등록할 수 있습니다.");
+        }
+
         RsData<LikeablePerson> createRsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
 
         if (createRsData.isFail()) {
@@ -71,7 +76,7 @@ public class LikeablePersonController {
         InstaMember instaMember = rq.getMember().getInstaMember();
         LikeablePerson likeablePerson = likeablePersonService.findById(id).orElse(null);
 
-        if(likeablePerson == null) {
+        if (likeablePerson == null) {
             return rq.historyBack("이미 삭제된 항목입니다");
         }
 
@@ -84,7 +89,7 @@ public class LikeablePersonController {
 
         RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(likeablePerson);
 
-        if(deleteRsData.isFail()) return rq.historyBack((deleteRsData));
+        if (deleteRsData.isFail()) return rq.historyBack((deleteRsData));
 
         return rq.redirectWithMsg("/likeablePerson/list", deleteRsData);
     }

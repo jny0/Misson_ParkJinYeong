@@ -3,6 +3,7 @@ package com.ll.gramgram.boundedContext.likeablePerson.controller;
 
 import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import com.ll.gramgram.boundedContext.likeablePerson.service.LikeablePersonService;
+import com.ll.gramgram.boundedContext.member.entity.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -195,4 +197,41 @@ public class LikeablePersonControllerTests {
         Optional<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
         assertTrue(!likeablePerson.isEmpty());
     }
+
+    @Test
+    @DisplayName("호감 상대 11개부터는 등록 안됨")
+    @WithUserDetails("user2")
+    void t008() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            ResultActions resultActions = mvc
+                    .perform(post("/likeablePerson/add")
+                            .with(csrf()) // CSRF 키 생성
+                            .param("username", String.format("insta_user_test%d", i))
+                            .param("attractiveTypeCode", "2")
+                    )
+                    .andDo(print());
+
+            resultActions
+                    .andExpect(handler().handlerType(LikeablePersonController.class))
+                    .andExpect(handler().methodName("add"))
+                    .andExpect(status().is3xxRedirection());
+        }
+
+        // 11명째부터는 에러
+        ResultActions resultActions = mvc
+                .perform(post("/likeablePerson/add")
+                        .with(csrf()) // CSRF 키 생성
+                        .param("username", "insta_user_test11")
+                        .param("attractiveTypeCode", "2")
+                )
+                .andDo(print());
+
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("add"))
+                .andExpect(status().is4xxClientError());
+
+    }
+
+
 }
