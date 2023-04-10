@@ -233,5 +233,22 @@ public class LikeablePersonControllerTests {
 
     }
 
+    @Test
+    @DisplayName("이미 등록한 상대 다시 등록 불가능")
+    @WithUserDetails("user3")
+    void t009() throws Exception{
+        ResultActions resultActions = mvc
+                .perform(post("/likeablePerson/add")
+                        .with(csrf()) // CSRF 키 생성
+                        .param("username", "insta_user100")
+                        .param("attractiveTypeCode", "2")
+                )
+                .andDo(print());
+
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("add"))
+                .andExpect(status().is4xxClientError());
+    }
 
 }
