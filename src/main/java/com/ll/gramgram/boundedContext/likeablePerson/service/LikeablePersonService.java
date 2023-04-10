@@ -65,6 +65,16 @@ public class LikeablePersonService {
     @Transactional
     public RsData<LikeablePerson> delete(LikeablePerson likeablePerson) {
         likeablePersonRepository.delete(likeablePerson);
-        return RsData.of("S-1", "호감 상대(%s)를 삭제했습니다.".formatted(likeablePerson.getToInstaMemberUsername()), likeablePerson);
+        return RsData.of("S-1", "호감 상대(%s)를 삭제했습니다.".formatted(likeablePerson.getToInstaMemberUsername()));
     }
+
+    @Transactional
+    public RsData<LikeablePerson> modify(LikeablePerson likeablePerson, int attractiveTypeCode) {
+        String previousAttractiveTypeDisplayName = likeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
+        likeablePerson.setAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
+        likeablePersonRepository.save(likeablePerson);
+        return RsData.of("S-2", "호감 상대(%s)의 매력을 \"%s\"에서 \"%s\"(으)로 수정했습니다."
+                .formatted(likeablePerson.getToInstaMemberUsername(), previousAttractiveTypeDisplayName, likeablePerson.getAttractiveTypeDisplayName()));
+    }
+
 }

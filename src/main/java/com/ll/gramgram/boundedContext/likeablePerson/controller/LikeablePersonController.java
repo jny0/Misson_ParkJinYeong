@@ -53,8 +53,9 @@ public class LikeablePersonController {
         for (LikeablePerson likeablePerson : likeablePeople) {
             if(likeablePerson.getToInstaMember().getUsername().equals(addForm.getUsername())) {
                 if (likeablePerson.getAttractiveTypeCode() != addForm.getAttractiveTypeCode()) {
-                    // TODO: 매력포인트 수정
-                    return rq.historyBack("수정하겠습니다."); // 임시 확인용
+                    // 매력 포인트 수정
+                    RsData<LikeablePerson> modifyRsData = likeablePersonService.modify(likeablePerson, addForm.getAttractiveTypeCode());
+                    return rq.redirectWithMsg("/likeablePerson/list",modifyRsData);
                 }
                 return rq.historyBack("이미 등록된 상대입니다.");
             }
