@@ -10,3 +10,7 @@ html > body {
     text-underline-position: under;
     word-break: keep-all;
 }
+
+.toast-top-center {
+    top:10%;
+}

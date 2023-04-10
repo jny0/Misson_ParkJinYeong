@@ -1,6 +1,8 @@
 package com.ll.gramgram.boundedContext.likeablePerson.controller;
 
 
+import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
+import com.ll.gramgram.boundedContext.likeablePerson.service.LikeablePersonService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -26,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LikeablePersonControllerTests {
     @Autowired
     private MockMvc mvc;
+    @Autowired
+    private LikeablePersonService likeablePersonService;
 
     @Test
     @DisplayName("등록 폼(인스타 인증을 안해서 폼 대신 메세지)")
@@ -42,7 +48,7 @@ public class LikeablePersonControllerTests {
                 .andExpect(handler().methodName("showAdd"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().string(containsString("""
-                        먼저 본인의 인스타그램 아이디를 입력해주세요.
+                        먼저 나의 인스타그램 계정을 등록해주세요.
                         """.stripIndent().trim())))
         ;
     }
@@ -136,17 +142,57 @@ public class LikeablePersonControllerTests {
                 .andExpect(handler().methodName("showList"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().string(containsString("""
-                        <span class="toInstaMember_username">insta_user4</span>
+                        <span class="toInstaMember_username">@insta_user4</span>
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
                         <span class="toInstaMember_attractiveTypeDisplayName">외모</span>
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
-                        <span class="toInstaMember_username">insta_user100</span>
+                        <span class="toInstaMember_username">@insta_user100</span>
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
                         <span class="toInstaMember_attractiveTypeDisplayName">성격</span>
                         """.stripIndent().trim())));
         ;
+    }
+
+    @Test
+    @DisplayName("호감 상대 삭제, 삭제 후 호감 목록 페이지로 리다이렉트")
+    @WithUserDetails("user3")
+    void t006() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(delete("/likeablePerson/1")
+                        .with(csrf()))
+                .andDo(print());
+        // THEN
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("delete"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("/likeablePerson/list**"));
+
+        Optional<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
+        assertTrue(likeablePerson.isEmpty());
+    }
+
+    @Test
+    @DisplayName("호감 상대 삭제 (권한 없음, 삭제 안됨)")
+    @WithUserDetails("user2")
+    void t007() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(delete("/likeablePerson/2")
+                        .with(csrf()))
+                .andDo(print());
+        // THEN
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("delete"))
+                .andExpect(status().is4xxClientError())
+        ;
+
+        Optional<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
+        assertTrue(!likeablePerson.isEmpty());
     }
 }
