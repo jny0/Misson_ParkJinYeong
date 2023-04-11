@@ -35,6 +35,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         String username = providerTypeCode + "__%s".formatted(oauthId);
 
+        // 네이버 로그인 시 id만 받아옴
+        if(providerTypeCode.equals("NAVER")) {
+            Map<String, Object> attributesResponse = (Map<String, Object>) oAuth2User.getAttributes().get("response");
+
+            username = providerTypeCode + "__%s".formatted(attributesResponse.get("id").toString());
+        }
+
         Member member = memberService.whenSocialLogin(providerTypeCode, username).getData();
 
         return new CustomOAuth2User(member.getUsername(), member.getPassword(), member.getGrantedAuthorities());
