@@ -12,9 +12,9 @@
             <div th:if="${@rq.login}" style="font-size:1.5em; word-break: break-all  ;">
                 <span th:text="|${@rq.member.username}님|"></span>
                 <p>안녕하세요!</p>
-            </div>
-            <div th:if="${@rq.login and @rq.member.hasConnectedInstaMember()}">
-                <span th:text="|(${#lists.size(@rq.member.instaMember.toLikeablePeople)}/${#lists.size(@rq.member.instaMember.fromLikeablePeople)})|"></span>
+                <div th:if="${@rq.login and @rq.member.hasConnectedInstaMember()}">
+                    <span th:text="|(${#lists.size(@rq.member.instaMember.toLikeablePeople)}/${#lists.size(@rq.member.instaMember.fromLikeablePeople)})|"></span>
+                </div>
             </div>
             <div th:if="${@rq.logout}">
                 <h1 class="text-5xl font-bold">환영합니다</h1>

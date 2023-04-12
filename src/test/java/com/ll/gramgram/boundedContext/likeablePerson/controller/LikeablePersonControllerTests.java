@@ -202,7 +202,7 @@ public class LikeablePersonControllerTests {
     @DisplayName("호감 상대 11개부터는 등록 안됨")
     @WithUserDetails("user2")
     void t008() throws Exception {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i <=10; i++) {
             ResultActions resultActions = mvc
                     .perform(post("/likeablePerson/add")
                             .with(csrf()) // CSRF 키 생성
