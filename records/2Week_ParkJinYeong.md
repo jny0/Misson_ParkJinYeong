@@ -1,4 +1,4 @@
-## [1Week] 박진영
+## [2Week] 박진영
 
 ### 미션 요구사항 분석 & 체크리스트
 
@@ -18,14 +18,39 @@
 - [x] 네이버를 통한 회원가입
 - [x] 네이버를 통한 로그인 처리
   - [x] 네이버 로그인 시 메인에 user id만 표시
-
+#
 
 ### 2주차 미션 요약
 
 ---  
 
 **[접근 방법]**
+1. 호감표시는 최대 10개까지만 가능
+- **application.yml** 파일에 최대 호감표시 가능 개수 입력
+  - AppConfig를 통해 application.yml에 접근하여 최대 개수 받이오기
+- likeablePeople.size()가 AppConfig에서 받아온 getLikeablePersonFromMax()와 같거나 크다면 더 이상 등록 불가 (historyBack)
+- 최대로 입력된 상태에서도 매력 수정은 가능해야하기 때문에 중복 검사보다 늦게 검사
+- 테스트 케이스로 해당 기능 확인(**LikeablePersonControllerTests**)
+  - t008 : 호감 상대 10개 입력 후 11번째 부터는 등록불가
+###
+2. 중복된 상대에게 호감표시 불가 및 매력포인트가 다르다면 수정하기
+- for문을 사용하여 호감 상대 목록 중에 입력된 인스타 계정과 중복된 상대가 있는지 확인
+- 중복된 상대가 있다면 매력포인트도 같은지 확인
+  - 매력포인트가 같다면 중복 대상이므로 등록 불가 (historyBack)
+  - 매력포인트가 다르다면 **LikeablePersonService의** **modify**메서드 실행 (S-2, redirect)
+- 테스트 케이스로 해당 기능 확인(**LikeablePersonControllerTests**)
+  - t009 : 이미 등록한 상대, 매력포인트가 같을 경우 등록 불가
+  - t010 : 이미 등록한 상대, 매력포인트가 다를 경우 매력 수정  
+###
+3. 네이버 소셜 로그인
+- **application-config.yml** 파일에 naver-client-id와 naver-client-secret 추가
+  - **.gitignore**로 노출 방지
+- **application.yml**에 정보 추가
+- **CustomOAuth2UserService**에서 네이버 로그인시 id만 추출하여 username에 표시 (참고 : https://lotuus.tistory.com/80)
 
-
-
+##
 **[특이사항]**
+- 예외처리 케이스를 service와 controller 둘 중 어디에서 구현해야할 지 고민이 많았는데 일단 controller에 구현하였다.
+
+- 중복된 상대를 검사할 때 for문이 아니라 stream을 사용하면 더 간단하게 구현할 수 있을 것 같아서 리팩토링 시 진행해보려고 한다.
+- 네이버 로그인에서 일단 id만 추출하여 사용했는데, 추후에 다른 정보들도 쉽게 가져다 사용할 수 있게 user 정보를 UserInfo클래스로 분리하는 것이 좋을 것 같다.
