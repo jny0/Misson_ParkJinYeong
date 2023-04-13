@@ -18,7 +18,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @ToString
 @Entity
 @Getter
-@Setter
 public class LikeablePerson {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -45,4 +44,10 @@ public class LikeablePerson {
             default -> "능력";
         };
     }
+
+    //캡슐화를 위해 setter대신 메서드 추가
+    public void updateAttractiveTypeCode(int attractiveTypeCode){
+        this.attractiveTypeCode = attractiveTypeCode;
+    }
+
 }

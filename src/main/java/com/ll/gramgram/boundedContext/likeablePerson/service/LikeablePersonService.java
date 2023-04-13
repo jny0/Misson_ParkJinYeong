@@ -39,11 +39,11 @@ public class LikeablePersonService {
             if (likeablePerson.getToInstaMember().getUsername().equals(username)) {
                 // 매력포인트가 다르게 입력되면 수정
                 if (likeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
-                    String previousAttractiveTypeDisplayName = likeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
-                    likeablePerson.setAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
-                    likeablePersonRepository.save(likeablePerson);
+                    String previousDisplayName = likeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
+                    likeablePerson.updateAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
+
                     return RsData.of("S-2", "호감 상대(%s)의 매력을 \"%s\"에서 \"%s\"(으)로 수정했습니다."
-                            .formatted(likeablePerson.getToInstaMemberUsername(), previousAttractiveTypeDisplayName, likeablePerson.getAttractiveTypeDisplayName()));
+                            .formatted(likeablePerson.getToInstaMemberUsername(), previousDisplayName, likeablePerson.getAttractiveTypeDisplayName()));
                 }
                 return RsData.of("F-3", "이미 등록된 상대입니다.");
             }
