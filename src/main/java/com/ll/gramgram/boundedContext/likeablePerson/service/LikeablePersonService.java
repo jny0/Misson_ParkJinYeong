@@ -34,19 +34,22 @@ public class LikeablePersonService {
         InstaMember fromInstaMember = member.getInstaMember();
         List<LikeablePerson> fromlikeablePeople = fromInstaMember.getFromLikeablePeople();
 
-        for (LikeablePerson likeablePerson : fromlikeablePeople) {
-            // 입력된 인스타 계정이 이미 등록된 계정 중에 있는지 확인
-            if (likeablePerson.getToInstaMember().getUsername().equals(username)) {
-                // 매력포인트가 다르게 입력되면 수정
-                if (likeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
-                    String previousDisplayName = likeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
-                    likeablePerson.updateAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
 
-                    return RsData.of("S-2", "호감 상대(%s)의 매력을 \"%s\"에서 \"%s\"(으)로 수정했습니다."
-                            .formatted(likeablePerson.getToInstaMemberUsername(), previousDisplayName, likeablePerson.getAttractiveTypeDisplayName()));
-                }
-                return RsData.of("F-3", "이미 등록된 상대입니다.");
+        LikeablePerson fromlikeablePerson = fromlikeablePeople.stream()
+                .filter(e->e.getToInstaMember().getUsername().equals(username))
+                .findFirst()
+                .orElse(null);
+
+
+        if(fromlikeablePerson != null){
+            if (fromlikeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
+                String previousDisplayName = fromlikeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
+                fromlikeablePerson.updateAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
+
+                return RsData.of("S-2", "호감 상대(%s)의 매력을 \"%s\"에서 \"%s\"(으)로 수정했습니다."
+                        .formatted(fromlikeablePerson.getToInstaMemberUsername(), previousDisplayName, fromlikeablePerson.getAttractiveTypeDisplayName()));
             }
+            return RsData.of("F-3", "이미 등록된 상대입니다.");
         }
 
         long likeablePersonFromMax = AppConfig.getLikeablePersonFromMax(); // 설정파일의 최대 호감표시 가능 개수
