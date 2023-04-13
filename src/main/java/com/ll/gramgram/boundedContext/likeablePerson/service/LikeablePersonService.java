@@ -1,5 +1,6 @@
 package com.ll.gramgram.boundedContext.likeablePerson.service;
 
+import com.ll.gramgram.base.appConfig.AppConfig;
 import com.ll.gramgram.base.rsData.RsData;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
 import com.ll.gramgram.boundedContext.instaMember.service.InstaMemberService;
@@ -31,6 +32,29 @@ public class LikeablePersonService {
         }
 
         InstaMember fromInstaMember = member.getInstaMember();
+        List<LikeablePerson> fromlikeablePeople = fromInstaMember.getFromLikeablePeople();
+
+        for (LikeablePerson likeablePerson : fromlikeablePeople) {
+            // 입력된 인스타 계정이 이미 등록된 계정 중에 있는지 확인
+            if (likeablePerson.getToInstaMember().getUsername().equals(username)) {
+                // 매력포인트가 다르게 입력되면 수정
+                if (likeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
+                    String previousAttractiveTypeDisplayName = likeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
+                    likeablePerson.setAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
+                    likeablePersonRepository.save(likeablePerson);
+                    return RsData.of("S-2", "호감 상대(%s)의 매력을 \"%s\"에서 \"%s\"(으)로 수정했습니다."
+                            .formatted(likeablePerson.getToInstaMemberUsername(), previousAttractiveTypeDisplayName, likeablePerson.getAttractiveTypeDisplayName()));
+                }
+                return RsData.of("F-3", "이미 등록된 상대입니다.");
+            }
+        }
+
+        long likeablePersonFromMax = AppConfig.getLikeablePersonFromMax(); // 설정파일의 최대 호감표시 가능 개수
+        if (fromlikeablePeople.size() >= likeablePersonFromMax) {
+            return RsData.of("F-", "호감 상대는 %d명까지만 등록할 수 있습니다.".formatted(likeablePersonFromMax));
+        }
+
+
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
 
         LikeablePerson likeablePerson = LikeablePerson
@@ -68,13 +92,14 @@ public class LikeablePersonService {
         return RsData.of("S-1", "호감 상대(%s)를 삭제했습니다.".formatted(likeablePerson.getToInstaMemberUsername()));
     }
 
-    @Transactional
-    public RsData<LikeablePerson> modify(LikeablePerson likeablePerson, int attractiveTypeCode) {
-        String previousAttractiveTypeDisplayName = likeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
-        likeablePerson.setAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
-        likeablePersonRepository.save(likeablePerson);
-        return RsData.of("S-2", "호감 상대(%s)의 매력을 \"%s\"에서 \"%s\"(으)로 수정했습니다."
-                .formatted(likeablePerson.getToInstaMemberUsername(), previousAttractiveTypeDisplayName, likeablePerson.getAttractiveTypeDisplayName()));
-    }
+//    @Transactional
+//    public RsData<LikeablePerson> modify(LikeablePerson likeablePerson, int attractiveTypeCode) {
+//        String previousAttractiveTypeDisplayName = likeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
+//        likeablePerson.setAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
+//        likeablePersonRepository.save(likeablePerson);
+//        return RsData.of("S-2", "호감 상대(%s)의 매력을 \"%s\"에서 \"%s\"(으)로 수정했습니다."
+//                .formatted(likeablePerson.getToInstaMemberUsername(), previousAttractiveTypeDisplayName, likeablePerson.getAttractiveTypeDisplayName()));
+//    }
+
 
 }
