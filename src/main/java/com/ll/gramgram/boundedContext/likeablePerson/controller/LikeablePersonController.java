@@ -40,27 +40,6 @@ public class LikeablePersonController {
 
     @PostMapping("/add")
     public String add(@Valid AddForm addForm) {
-
-//        InstaMember instaMember = rq.getMember().getInstaMember();
-//        List<LikeablePerson> likeablePeople = instaMember.getFromLikeablePeople();
-//
-//        for (LikeablePerson likeablePerson : likeablePeople) {
-//            // 입력된 인스타 계정이 이미 등록된 계정 중에 있는지 확인
-//            if (likeablePerson.getToInstaMember().getUsername().equals(addForm.getUsername())) {
-//                // 매력포인트가 다르게 입력되면 수정
-//                if (likeablePerson.getAttractiveTypeCode() != addForm.getAttractiveTypeCode()) {
-//                    RsData<LikeablePerson> modifyRsData = likeablePersonService.modify(likeablePerson, addForm.getAttractiveTypeCode());
-//                    return rq.redirectWithMsg("/likeablePerson/list", modifyRsData);
-//                }
-//                return rq.historyBack("이미 등록된 상대입니다.");
-//            }
-//        }
-//
-//        long likeablePersonFromMax = AppConfig.getLikeablePersonFromMax(); // 설정파일의 최대 호감표시 가능 개수
-//        if (likeablePeople.size() >= likeablePersonFromMax) {
-//            return rq.historyBack("호감 상대는 %d명까지만 등록할 수 있습니다.".formatted(likeablePersonFromMax));
-//        }
-
         RsData<LikeablePerson> createRsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
 
         if (createRsData.isFail()) {

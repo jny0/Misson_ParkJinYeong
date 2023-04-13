@@ -34,13 +34,12 @@ public class LikeablePersonService {
         InstaMember fromInstaMember = member.getInstaMember();
         List<LikeablePerson> fromlikeablePeople = fromInstaMember.getFromLikeablePeople();
 
-
         LikeablePerson fromlikeablePerson = fromlikeablePeople.stream()
                 .filter(e->e.getToInstaMember().getUsername().equals(username))
                 .findFirst()
                 .orElse(null);
 
-
+        // 중복 체크
         if(fromlikeablePerson != null){
             if (fromlikeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
                 String previousDisplayName = fromlikeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
