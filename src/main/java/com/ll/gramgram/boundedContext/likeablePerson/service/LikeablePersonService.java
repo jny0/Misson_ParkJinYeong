@@ -53,7 +53,7 @@ public class LikeablePersonService {
 
         long likeablePersonFromMax = AppConfig.getLikeablePersonFromMax(); // 설정파일의 최대 호감표시 가능 개수
         if (fromlikeablePeople.size() >= likeablePersonFromMax) {
-            return RsData.of("F-", "호감 상대는 %d명까지만 등록할 수 있습니다.".formatted(likeablePersonFromMax));
+            return RsData.of("F-4", "호감 상대는 %d명까지만 등록할 수 있습니다.".formatted(likeablePersonFromMax));
         }
 
 
