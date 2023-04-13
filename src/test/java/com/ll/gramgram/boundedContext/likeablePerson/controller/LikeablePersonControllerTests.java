@@ -200,24 +200,8 @@ public class LikeablePersonControllerTests {
 
     @Test
     @DisplayName("호감 상대 11개부터는 등록 안됨")
-    @WithUserDetails("user2")
+    @WithUserDetails("user3")
     void t008() throws Exception {
-        for (int i = 1; i <=10; i++) {
-            ResultActions resultActions = mvc
-                    .perform(post("/likeablePerson/add")
-                            .with(csrf()) // CSRF 키 생성
-                            .param("username", String.format("insta_user_test%d", i))
-                            .param("attractiveTypeCode", "2")
-                    )
-                    .andDo(print());
-
-            resultActions
-                    .andExpect(handler().handlerType(LikeablePersonController.class))
-                    .andExpect(handler().methodName("add"))
-                    .andExpect(status().is3xxRedirection());
-        }
-
-        // 11명째부터는 에러
         ResultActions resultActions = mvc
                 .perform(post("/likeablePerson/add")
                         .with(csrf()) // CSRF 키 생성
@@ -229,7 +213,8 @@ public class LikeablePersonControllerTests {
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
                 .andExpect(handler().methodName("add"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(request().attribute("historyBackErrorMsg", "호감 상대는 10명까지만 등록할 수 있습니다."));
 
     }
 
@@ -248,7 +233,8 @@ public class LikeablePersonControllerTests {
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
                 .andExpect(handler().methodName("add"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().is4xxClientError())
+                .andExpect(request().attribute("historyBackErrorMsg", "이미 등록된 상대입니다."));
     }
 
     @Test
