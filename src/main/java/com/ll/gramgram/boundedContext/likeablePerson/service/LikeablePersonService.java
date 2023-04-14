@@ -32,27 +32,27 @@ public class LikeablePersonService {
         }
 
         InstaMember fromInstaMember = member.getInstaMember();
-        List<LikeablePerson> fromlikeablePeople = fromInstaMember.getFromLikeablePeople();
+        List<LikeablePerson> fromLikeablePeople = fromInstaMember.getFromLikeablePeople();
 
-        LikeablePerson fromlikeablePerson = fromlikeablePeople.stream()
+        LikeablePerson fromLikeablePerson = fromLikeablePeople.stream()
                 .filter(e->e.getToInstaMember().getUsername().equals(username))
                 .findFirst()
                 .orElse(null);
 
         // 중복 체크
-        if(fromlikeablePerson != null){
-            if (fromlikeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
-                String previousDisplayName = fromlikeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
-                fromlikeablePerson.updateAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
+        if(fromLikeablePerson != null){
+            if (fromLikeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
+                String previousDisplayName = fromLikeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
+                fromLikeablePerson.updateAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
 
                 return RsData.of("S-2", "호감 상대(%s)의 매력을 \"%s\"에서 \"%s\"(으)로 수정했습니다."
-                        .formatted(fromlikeablePerson.getToInstaMemberUsername(), previousDisplayName, fromlikeablePerson.getAttractiveTypeDisplayName()));
+                        .formatted(fromLikeablePerson.getToInstaMemberUsername(), previousDisplayName, fromLikeablePerson.getAttractiveTypeDisplayName()));
             }
             return RsData.of("F-3", "이미 등록된 상대입니다.");
         }
 
         long likeablePersonFromMax = AppConfig.getLikeablePersonFromMax(); // 설정파일의 최대 호감표시 가능 개수
-        if (fromlikeablePeople.size() >= likeablePersonFromMax) {
+        if (fromLikeablePeople.size() >= likeablePersonFromMax) {
             return RsData.of("F-4", "호감 상대는 %d명까지만 등록할 수 있습니다.".formatted(likeablePersonFromMax));
         }
 
