@@ -1,5 +1,6 @@
 package com.ll.gramgram.boundedContext.likeablePerson.controller;
 
+import com.ll.gramgram.base.appConfig.AppConfig;
 import com.ll.gramgram.base.rq.Rq;
 import com.ll.gramgram.base.rsData.RsData;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
@@ -9,14 +10,11 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,7 +69,7 @@ public class LikeablePersonController {
         InstaMember instaMember = rq.getMember().getInstaMember();
         LikeablePerson likeablePerson = likeablePersonService.findById(id).orElse(null);
 
-        if(likeablePerson == null) {
+        if (likeablePerson == null) {
             return rq.historyBack("이미 삭제된 항목입니다");
         }
 
@@ -84,7 +82,7 @@ public class LikeablePersonController {
 
         RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(likeablePerson);
 
-        if(deleteRsData.isFail()) return rq.historyBack((deleteRsData));
+        if (deleteRsData.isFail()) return rq.historyBack((deleteRsData));
 
         return rq.redirectWithMsg("/likeablePerson/list", deleteRsData);
     }

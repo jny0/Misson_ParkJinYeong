@@ -3,6 +3,7 @@ package com.ll.gramgram.boundedContext.likeablePerson.controller;
 
 import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import com.ll.gramgram.boundedContext.likeablePerson.service.LikeablePersonService;
+import com.ll.gramgram.boundedContext.member.entity.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -194,5 +196,64 @@ public class LikeablePersonControllerTests {
 
         Optional<LikeablePerson> likeablePerson = this.likeablePersonService.findById(1L);
         assertTrue(!likeablePerson.isEmpty());
+    }
+
+    @Test
+    @DisplayName("호감 상대 11개부터는 등록 안됨")
+    @WithUserDetails("user3")
+    void t008() throws Exception {
+        ResultActions resultActions = mvc
+                .perform(post("/likeablePerson/add")
+                        .with(csrf()) // CSRF 키 생성
+                        .param("username", "insta_user_test11")
+                        .param("attractiveTypeCode", "2")
+                )
+                .andDo(print());
+
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("add"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(request().attribute("historyBackErrorMsg", "호감 상대는 10명까지만 등록할 수 있습니다."));
+
+    }
+
+    @Test
+    @DisplayName("이미 등록한 상대 다시 등록 불가능")
+    @WithUserDetails("user3")
+    void t009() throws Exception{
+        ResultActions resultActions = mvc
+                .perform(post("/likeablePerson/add")
+                        .with(csrf()) // CSRF 키 생성
+                        .param("username", "insta_user100")
+                        .param("attractiveTypeCode", "2")
+                )
+                .andDo(print());
+
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("add"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(request().attribute("historyBackErrorMsg", "이미 등록된 상대입니다."));
+    }
+
+    @Test
+    @DisplayName("호감 상대 매력 수정(이미 등록한 상대를 다른 매력포인트로 등록할 경우)")
+    @WithUserDetails("user3")
+    void t010() throws Exception{
+        ResultActions resultActions = mvc
+                .perform(post("/likeablePerson/add")
+                        .with(csrf()) // CSRF 키 생성
+                        .param("username", "insta_user100")
+                        .param("attractiveTypeCode", "3")
+                )
+                .andDo(print());
+
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("add"))
+                .andExpect(status().is3xxRedirection());
+
+        assertThat(this.likeablePersonService.findById(2L).get().getAttractiveTypeCode()).isEqualTo(3);
     }
 }

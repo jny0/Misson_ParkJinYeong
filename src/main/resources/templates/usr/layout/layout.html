@@ -1,4 +1,4 @@
-<html data-theme="cupcake">
+<html data-theme="pastel">
 
 <head>
 
@@ -6,6 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- 제이쿼리 불러오기 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -24,7 +25,7 @@
 
 </head>
 
-<body class="max-w-2xl mx-auto">
+<body class="max-w-2xl mx-auto min-h-screen flex flex-col">
 
 <!-- 데이지 UI 불러오기 -->
 <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css"/>
@@ -69,7 +70,7 @@
     </div>
 </header>
 
-<main layout:fragment="main"></main>
+<main layout:fragment="main" class="flex-grow flex items-center justify-center bg-base-200"></main>
 
 <script th:inline="javascript" >
     // 타임리프 문법(파라미터, ? 뒤에 입력된 매개변수들)
