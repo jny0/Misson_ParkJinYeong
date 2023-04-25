@@ -94,6 +94,11 @@ public class LikeablePersonService {
         String toInstaMemberUsername = likeablePerson.getToInstaMember().getUsername();
         likeablePersonRepository.delete(likeablePerson);
 
+        // 내가 한 호감 표시 사라짐
+        likeablePerson.getFromInstaMember().removeFromLikeablePerson(likeablePerson);
+        // 누군가가 나에 대해 한 호감 표시 사라짐
+        likeablePerson.getToInstaMember().removeToLikeablePerson(likeablePerson);
+
         String likeCanceledUsername = likeablePerson.getToInstaMember().getUsername();
         return RsData.of("S-1", "호감 상대(%s)를 삭제했습니다.".formatted(likeCanceledUsername));
     }
