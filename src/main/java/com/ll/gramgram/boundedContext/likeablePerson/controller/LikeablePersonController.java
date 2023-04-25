@@ -65,25 +65,18 @@ public class LikeablePersonController {
 
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        InstaMember instaMember = rq.getMember().getInstaMember();
+    public String cancel(@PathVariable("id") Long id) {
+
         LikeablePerson likeablePerson = likeablePersonService.findById(id).orElse(null);
 
-        if (likeablePerson == null) {
-            return rq.historyBack("이미 삭제된 항목입니다");
-        }
+        RsData canCancelRsDate = likeablePersonService.canCancel(rq.getMember(), likeablePerson);
 
-        // 삭제 항목 소유권 체크
-        // 현재 로그인한 회원의 인스타 정보와 삭제하려는 상대를 등록한 회원의 인스타 정보가 같지 않으면 오류
-        // Objects.equals 객체의 주소를 비교
-        if (!Objects.equals(likeablePerson.getFromInstaMember().getId(), instaMember.getId())) {
-            return rq.historyBack("삭제 권한이 없습니다.");
-        }
+        if(canCancelRsDate.isFail()) return rq.historyBack(canCancelRsDate);
 
-        RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(likeablePerson);
+        RsData cancelRsData = likeablePersonService.cancel(likeablePerson);
 
-        if (deleteRsData.isFail()) return rq.historyBack((deleteRsData));
+        if (cancelRsData.isFail()) return rq.historyBack((cancelRsData));
 
-        return rq.redirectWithMsg("/likeablePerson/list", deleteRsData);
+        return rq.redirectWithMsg("/likeablePerson/list", cancelRsData);
     }
 }

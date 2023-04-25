@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,7 +24,7 @@ public class LikeablePersonService {
 
     @Transactional
     public RsData<LikeablePerson> like(Member member, String username, int attractiveTypeCode) {
-        if ( member.hasConnectedInstaMember() == false ) {
+        if (member.hasConnectedInstaMember() == false) {
             return RsData.of("F-2", "먼저 본인의 인스타그램 아이디를 입력해야 합니다.");
         }
 
@@ -35,12 +36,12 @@ public class LikeablePersonService {
         List<LikeablePerson> fromLikeablePeople = fromInstaMember.getFromLikeablePeople();
 
         LikeablePerson fromLikeablePerson = fromLikeablePeople.stream()
-                .filter(e->e.getToInstaMember().getUsername().equals(username))
+                .filter(e -> e.getToInstaMember().getUsername().equals(username))
                 .findFirst()
                 .orElse(null);
 
         // 중복 체크
-        if(fromLikeablePerson != null){
+        if (fromLikeablePerson != null) {
             if (fromLikeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
                 String previousDisplayName = fromLikeablePerson.getAttractiveTypeDisplayName(); // 이전에 등록된 매력
                 fromLikeablePerson.updateAttractiveTypeCode(attractiveTypeCode); // 새로 입력된 매력으로 수정
@@ -89,10 +90,30 @@ public class LikeablePersonService {
     }
 
     @Transactional
-    public RsData<LikeablePerson> delete(LikeablePerson likeablePerson) {
+    public RsData<LikeablePerson> cancel(LikeablePerson likeablePerson) {
+        String toInstaMemberUsername = likeablePerson.getToInstaMember().getUsername();
         likeablePersonRepository.delete(likeablePerson);
-        return RsData.of("S-1", "호감 상대(%s)를 삭제했습니다.".formatted(likeablePerson.getToInstaMemberUsername()));
+
+        String likeCanceledUsername = likeablePerson.getToInstaMember().getUsername();
+        return RsData.of("S-1", "호감 상대(%s)를 삭제했습니다.".formatted(likeCanceledUsername));
     }
+
+    public RsData canCancel(Member actor, LikeablePerson likeablePerson) {
+        if (likeablePerson == null) {
+            return RsData.of("F-1:", "이미 삭제된 항목입니다");
+        }
+
+        long actorInstaMemberId = actor.getInstaMember().getId(); // 삭제하는 사람의 인스타계정 번호
+        long fromInstaMemberId = likeablePerson.getFromInstaMember().getId(); // 삭제 대상을 등록한 사람의 인스타계정 번호
+
+        // 삭제 항목 소유권 체크
+        if (actorInstaMemberId != fromInstaMemberId) {
+            return RsData.of("F-2", "삭제 권한이 없습니다.");
+        }
+
+        return RsData.of("S-1", "삭제 가능합니다.");
+    }
+
 
 //    @Transactional
 //    public RsData<LikeablePerson> modify(LikeablePerson likeablePerson, int attractiveTypeCode) {
