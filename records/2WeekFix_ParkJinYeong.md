@@ -18,4 +18,4 @@
   - [x] `canLike` 생성 -> 유효성 및 권한 체크 로직 분리
   - [x] `canModifyAttractive` 생성 -> 매력포인트 수정 로직 분리
   - [x] Test에서 JPA를 사용해서 조회
-  - [ ] LikeablePersonServiceTests 생성
+  - [X] LikeablePersonServiceTests 도입
