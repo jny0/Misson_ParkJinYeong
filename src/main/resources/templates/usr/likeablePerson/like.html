@@ -30,7 +30,7 @@
         <script th:inline="javascript">
             const myInstaMemberUsername = /*[[ ${@rq.member.instaMember.username} ]]*/ null;
 
-            function AddForm__submit(form) {
+            function LikeForm__submit(form) {
                 // username 이(가) 올바른지 체크
 
                 form.username.value = form.username.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
@@ -72,7 +72,7 @@
             </div>
             <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                 <div class="card-body">
-                    <form class="mb-0" th:action method="POST" onsubmit="AddForm__submit(this); return false;">
+                    <form class="mb-0" th:action method="POST" onsubmit="LikeForm__submit(this); return false;">
                         <div class="flex justify-between">
                             나의 인스타 계정
                             <span class="badge badge-secondary"
