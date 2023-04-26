@@ -73,34 +73,48 @@
             <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                 <div class="card-body">
                     <form class="mb-0" th:action method="POST" onsubmit="LikeForm__submit(this); return false;">
-                        <div class="flex justify-between">
+                        <div class="flex justify-between21 gap-3">
                             나의 인스타 계정
-                            <span class="badge badge-secondary"
-                                  th:text="|@${@rq.member.instaMember.username}|"></span>
+                            <h2 class="card-title">
+                                <span><i class="fa-brands fa-instagram"></i></span>
+                                <span th:text="|${@rq.member.instaMember.username}|"></span>
+                            </h2>
                         </div>
                         <div class="form-control mt-5">
-                            <input type="text" name="username" autocomplete="off" maxlength="30"
-                                   placeholder="호감 상대의 인스타 계정"
-                                   class="input input-bordered">
+                            <input type="text" name="username" autocomplete="off" maxlength="30" autofocus
+                                   placeholder="호감 상대의 인스타 계정" class="input input-bordered"
+                                   onchange="$(this).keyup();"
+                                   onkeyup="$(this).next().children(':last-child').text(this.value.trim());"
+                                   onpaste="setTimeoutZero(() => $(this).keyup());"/>
+                            <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank"
+                               class="block mt-3 text-sm break-all underline text-blue-400">
+                                <span>https://instagram.com/</span><span class="text-red-300"></span>
+                            </a>
+                            <script>
+                                $(`input[name="username"]:last`).keyup();
+                            </script>
                         </div>
                         <div class="mt-5">
                             <div class="form-control">
                                 <label class="label cursor-pointer">
-                                    <span class="label-text">외모</span>
+                                    <span class="label-text"><i class="fa-solid fa-person-rays"></i>
+                                        외모</span>
                                     <input type="radio" name="attractiveTypeCode" value="1"
                                            class="radio focus:bg-red-100">
                                 </label>
                             </div>
                             <div class="form-control">
                                 <label class="label cursor-pointer">
-                                    <span class="label-text">성격</span>
+                                    <span class="label-text"><i class="fa-regular fa-face-smile"></i>
+                                        성격</span>
                                     <input type="radio" name="attractiveTypeCode" value="2"
                                            class="radio focus:bg-red-100">
                                 </label>
                             </div>
                             <div class="form-control">
                                 <label class="label cursor-pointer">
-                                    <span class="label-text">능력</span>
+                                    <span class="label-text"><i class="fa-solid fa-people-roof"></i>
+                                        능력</span>
                                     <input type="radio" name="attractiveTypeCode" value="3"
                                            class="radio focus:bg-red-100">
                                 </label>

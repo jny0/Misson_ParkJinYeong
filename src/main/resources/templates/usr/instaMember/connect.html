@@ -47,8 +47,12 @@
                 <form th:action method="POST" class="mb-0" onsubmit="ConnectForm__submit(this); return false;">
                     <div class="form-control">
                         <input type="text" name="username" autocomplete="off" maxlength="30" placeholder="인스타그램 계정"
-                               class="input input-bordered" autofocus onchange="$(this).keyup();" onkeyup="$(this).next().children(':last-child').text(this.value.trim());" onpaste="setTimeoutZero(() => $(this).keyup());"/>
-                        <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank" class="block mt-3 text-sm break-all">
+                               class="input input-bordered" autofocus
+                               onchange="$(this).keyup();"
+                               onkeyup="$(this).next().children(':last-child').text(this.value.trim());"
+                               onpaste="setTimeoutZero(() => $(this).keyup());"/>
+                        <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));"
+                           target="_blank" class="block mt-3 text-sm break-all underline text-blue-400">
                             <span>https://instagram.com/</span><span class="text-red-300"></span>
                         </a>
                         <script>

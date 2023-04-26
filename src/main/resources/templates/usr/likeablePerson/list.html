@@ -7,64 +7,66 @@
 <body>
 
 <main layout:fragment="main">
-    <div class="hero-content flex-col">
-        <div class="text-center mb-5">
-            <h1 class="text-5xl my-2 font-bold">호감 상대 목록</h1>
-        </div>
-        <div class="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
-            <div class="card-body">
+
+
+    <div class="flex flex-col">
+        <div class="hero-content flex-col">
+            <div class="text-center mb-5">
+                <h1 class="text-5xl my-2 font-bold">호감 상대 목록</h1>
+            </div>
+            <div class="max-w-2xl w-full px-4">
                 <th:block th:unless="${@rq.member.hasConnectedInstaMember}">
-                    <div class="flex flex-col gap-4">
-                        <div>먼저 나의 인스타그램 계정을 등록해주세요.</div>
-                        <a href="/instaMember/connect" class="btn btn-primary">인스타 등록하러 가기</a>
+                    <div class="card shadow-2xl bg-base-100">
+                        <div class=" card-body flex flex-col gap-4">
+                            <div>먼저 나의 인스타그램 계정을 등록해주세요.</div>
+                            <a href="/instaMember/connect" class="btn btn-primary">인스타 등록하러 가기</a>
+                        </div>
                     </div>
                 </th:block>
+
                 <th:block th:if="${@rq.member.hasConnectedInstaMember}">
-                    <div class="overflow-x-auto">
-                        <table class="table w-full">
-                            <!-- head -->
-                            <thead>
-                            <tr class="text-center">
-                                <th>호감 상대 계정</th>
-                                <th>매력</th>
-                                <th>삭제하기</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- row -->
-                            <li th:each="likeablePerson: ${likeablePeople}" class="flex justify-between">
-                                <tr>
-                                    <td><span class="toInstaMember_username"
-                                              th:text="|@${likeablePerson.toInstaMember.username}|"></span></td>
-                                    <td class="text-center"><span class="toInstaMember_attractiveTypeDisplayName"
-                                                                  th:text="${likeablePerson.attractiveTypeDisplayName}"></span>
-                                    </td>
-                                    <td class="text-center">
-                                        <a class="btn btn-circle btn-outline btn-sm"
-                                           href="javascript:;"
-                                           onclick="if ( confirm('정말로 삭제하시겠습니까?') ) $(this).next().submit();">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
-                                                 viewBox="0 0 12 12" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      stroke-width="2" d="M3 9L9 3M3 3l6 6"/>
-                                            </svg>
-                                        </a>
+
+                    <ul class="flex flex-col gap-4">
+                        <li th:each="likeablePerson: ${likeablePeople}">
+                            <div class="card bg-base-100 shadow-xl">
+                                <div class="card-body">
+                                    <h2 class="card-title">
+                                        <span><i class="fa-brands fa-instagram"></i></span>
+                                        <span th:data-test="|toInstaMember_username=${likeablePerson.toInstaMember.username}|"
+                                              th:text="${likeablePerson.toInstaMember.username}"></span>
+                                    </h2>
+                                    <a th:href="|https://instagram.com/${likeablePerson.toInstaMember.username}|"
+                                       target="_blank" class="block text-sm break-all text-blue-400 underline">
+                                        <span>https://instagram.com/</span><span class="text-red-400"
+                                                                                 th:text="${likeablePerson.toInstaMember.username}"></span>
+                                    </a>
+
+                                    <div class="mt-2">
+                                        <div class="badge badge-primary -ml-2">호감사유</div>
+                                        <div class="mt-1"
+                                             th:data-test="|toInstaMember_attractiveTypeDisplayName=${likeablePerson.attractiveTypeDisplayName}|"
+                                             th:utext="${likeablePerson.attractiveTypeDisplayNameWithIcon}"></div>
+                                    </div>
+
+                                    <div class="card-actions justify-end">
+                                        <a class="btn btn-sm btn-outline">호감사유 변경</a>
+                                        <a class="btn btn-sm btn-outline" href="javascript:;"
+                                           onclick="if ( confirm('정말로 취소하시겠습니까?') ) $(this).next().submit();">호감취소</a>
                                         <form hidden th:action="@{|/likeablePerson/${likeablePerson.id}|}"
                                               method="POST">
                                             <input type="hidden" name="_method" value="delete">
                                         </form>
-                                    </td>
-                                </tr>
-                            </li>
-                            </tbody>
-                        </table>
-                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </th:block>
             </div>
         </div>
     </div>
-
 </main>
+
 </body>
 
 </html>
