@@ -41,7 +41,7 @@
                                                                                  th:text="${likeablePerson.toInstaMember.username}"></span>
                                     </a>
 
-                                    <div class="mt-2">
+                                    <div class="mt-4">
                                         <div class="badge badge-primary -ml-2">호감사유</div>
                                         <div class="mt-1"
                                              th:data-test="|toInstaMember_attractiveTypeDisplayName=${likeablePerson.attractiveTypeDisplayName}|"
@@ -49,9 +49,12 @@
                                     </div>
 
                                     <div class="card-actions justify-end">
-                                        <a class="btn btn-sm btn-outline">호감사유 변경</a>
+                                        <a th:href="@{|modify/${likeablePerson.id}|}" class="btn btn-sm btn-outline">
+                                            호감사유 변경</a>
+
                                         <a class="btn btn-sm btn-outline" href="javascript:;"
-                                           onclick="if ( confirm('정말로 취소하시겠습니까?') ) $(this).next().submit();">호감취소</a>
+                                           onclick="if ( confirm('정말로 취소하시겠습니까?') ) $(this).next().submit();">
+                                            호감취소</a>
                                         <form hidden th:action="@{|/likeablePerson/${likeablePerson.id}|}"
                                               method="POST">
                                             <input type="hidden" name="_method" value="delete">
