@@ -54,7 +54,7 @@
             <div class="card-body">
                 <form th:action method="POST" class="flex flex-col gap-6 m-1"
                       onsubmit="LoginForm__submit(this); return false;">
-                    <th:block th:if="${param.admin}">
+                    <th:block th:if="${@rq.refererAdminPage}">
                         <div class="form-control">
                             <label class="label">
                                 <span class="label-text">ID</span>
