@@ -12,11 +12,12 @@
     <div th:if="${@rq.member.hasConnectedInstaMember}" class="flex flex-col">
         <div class="hero-content flex-col">
             <div class="text-center my-5">
-                <h1 class="text-5xl my-2 font-bold">내 정보</h1>
+                <h1 class="text-4xl my-2 font-bold">내 정보</h1>
             </div>
+
+            <!-- 내 정보 시작 -->
             <div class="max-w-2xl w-full px-4">
                 <div class="flex flex-col gap-4">
-
                     <div class="card flex-shrink-0 shadow-2xl bg-base-100">
                         <div class="card-body">
                             <div class="overflow-x-auto">
@@ -57,7 +58,49 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 내 정보 끝 -->
 
+                    <!-- 호감 사유별 인기 시작 -->
+                    <div class="card flex-shrink-0 shadow-2xl bg-base-100">
+                        <div class="card-body">
+                            <h2 class="card-title mb-3">
+                                <i class="fa-solid fa-list-check"></i> 호감 사유별 인기
+                            </h2>
+
+                            <table class="table w-full !text-center">
+                                <tr>
+                                    <td>전체</td>
+                                    <td><i class="fa-solid fa-heart"></i>&nbsp;&nbsp;<span
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likes, 0, 'COMMA')}"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa-solid fa-person-rays"></i> 외모</td>
+                                    <td>
+                                        <i class="fa-solid fa-heart text-amber-400"></i>&nbsp;&nbsp;<span
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByAttractionTypeCode1, 0, 'COMMA')}"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa-solid fa-face-smile"></i> 성격</td>
+                                    <td>
+                                        <i class="fa-solid fa-heart text-green-400"></i>&nbsp;&nbsp;<span
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByAttractionTypeCode1, 0, 'COMMA')}"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa-solid fa-people-roof"></i> 능력</td>
+                                    <td>
+                                        <i class="fa-solid fa-heart text-purple-400"></i>&nbsp;&nbsp;<span
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByAttractionTypeCode1, 0, 'COMMA')}"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- 호감 사유별 인기 끝-->
+
+                    <!-- 성별 인기 시작 -->
                     <div class="card flex-shrink-0 shadow-2xl bg-base-100">
                         <div class="card-body">
                             <h2 class="card-title mb-3">
@@ -68,7 +111,8 @@
                                 <tr>
                                     <td>전체</td>
                                     <td><i class="fa-solid fa-heart"></i>&nbsp;&nbsp;<span
-                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likes, 0, 'COMMA')}"></span></td>
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likes, 0, 'COMMA')}"></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa-solid fa-person-dress"></i> 여성</td>
@@ -87,45 +131,126 @@
                             </table>
                         </div>
                     </div>
+                    <!-- 성별 인기 시작 -->
 
-
+                    <!-- 여성으로부터 받은 호감 시작 -->
                     <div class="card flex-shrink-0 shadow-2xl bg-base-100">
                         <div class="card-body">
                             <h2 class="card-title mb-3">
-                                <i class="fa-solid fa-list-check"></i> 호감 사유별 인기
+                                <i class="fa-solid fa-person"></i> 여성으로부터 받은 호감
                             </h2>
 
                             <table class="table w-full !text-center">
                                 <tr>
-                                    <td>전체</td>
-                                    <td><i class="fa-solid fa-heart"></i>&nbsp;&nbsp;<span
-                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likes, 0, 'COMMA')}"></span></td>
-                                </tr>
-                                <tr>
                                     <td><i class="fa-solid fa-person-rays"></i> 외모</td>
                                     <td>
                                         <i class="fa-solid fa-heart text-amber-400"></i>&nbsp;&nbsp;<span
-                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByAttractionTypeCode1, 0, 'COMMA')}"></span>
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByGenderWomanAndAttractiveTypeCode1, 0, 'COMMA')}"></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa-solid fa-face-smile"></i> 성격</td>
                                     <td>
                                         <i class="fa-solid fa-heart text-green-400"></i>&nbsp;&nbsp;<span
-                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByAttractionTypeCode2, 0, 'COMMA')}"></span>
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByGenderWomanAndAttractiveTypeCode2, 0, 'COMMA')}"></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><i class="fa-solid fa-people-roof"></i> 능력</td>
                                     <td>
                                         <i class="fa-solid fa-heart text-purple-400"></i>&nbsp;&nbsp;<span
-                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByAttractionTypeCode3, 0, 'COMMA')}"></span>
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByGenderWomanAndAttractiveTypeCode3, 0, 'COMMA')}"></span>
                                     </td>
                                 </tr>
                             </table>
                         </div>
                     </div>
+                    <!-- 여성으로부터 받은 호감 끝 -->
 
+                    <!-- 남성으로부터 받은 호감 시작 -->
+                    <div class="card flex-shrink-0 shadow-2xl bg-base-100">
+                        <div class="card-body">
+                            <h2 class="card-title mb-3">
+                                <i class="fa-solid fa-person"></i> 남성으로부터 받은 호감
+                            </h2>
+
+                            <table class="table w-full !text-center">
+                                <tr>
+                                    <td><i class="fa-solid fa-person-rays"></i> 외모</td>
+                                    <td>
+                                        <i class="fa-solid fa-heart text-amber-400"></i>&nbsp;&nbsp;<span
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByGenderManAndAttractiveTypeCode1, 0, 'COMMA')}"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa-solid fa-face-smile"></i> 성격</td>
+                                    <td>
+                                        <i class="fa-solid fa-heart text-green-400"></i>&nbsp;&nbsp;<span
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByGenderManAndAttractiveTypeCode2, 0, 'COMMA')}"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fa-solid fa-people-roof"></i> 능력</td>
+                                    <td>
+                                        <i class="fa-solid fa-heart text-purple-400"></i>&nbsp;&nbsp;<span
+                                            th:text="${#numbers.formatInteger(@rq.member.instaMember.likesCountByGenderManAndAttractiveTypeCode3, 0, 'COMMA')}"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- 남성으로부터 받은 호감 끝 -->
+
+
+                    <div class="divider !mt-14 !mb-4"></div>
+
+                    <div class="text-center mt-4 mb-4">
+                        <h1 class="text-4xl my-2 font-bold">
+                            최근에 받은 호감
+                        </h1>
+                    </div>
+
+                    <div th:if="${#lists.isEmpty(@rq.member.instaMember.toLikeablePeople)}">
+                        <div class="card flex-shrink-0 shadow-2xl bg-base-100 mb-14">
+                            <div class="card-body justify-center !flex-row">
+                                <i class="fa-regular fa-face-laugh"></i> 최근에 받은 호감이 없습니다.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-4 mb-5"
+                         th:if="${!#lists.isEmpty(@rq.member.instaMember.toLikeablePeople)}">
+                        <div class="card flex-shrink-0 shadow-2xl bg-base-100"
+                             th:each="likeablePerson, i: ${@rq.member.instaMember.toLikeablePeople}">
+                            <div class="card-body">
+                                <h2 class="card-title">
+                                    <span th:text="|No. ${i.index + 1} / ${i.size}|"></span>
+                                </h2>
+
+                                <table class="table w-full ">
+                                    <tr>
+                                        <td>호감 표시</td>
+                                        <td><i class="fa-regular fa-clock"></i>
+                                            <span th:text="${#temporals.format(likeablePerson.createDate, 'yy-MM-dd HH:mm')}"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> 성별</td>
+                                        <td><i class="fa-solid fa-person-half-dress"></i>
+                                            <span th:text="${likeablePerson.fromInstaMember.genderDisplayName}"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>호감 사유</td>
+                                        <td><i class="fa-solid fa-circle-info"></i>
+                                            <span th:text="${likeablePerson.attractiveTypeDisplayName}"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
