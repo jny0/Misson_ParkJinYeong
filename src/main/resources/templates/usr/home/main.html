@@ -8,19 +8,12 @@
 
 <main layout:fragment="main">
     <div class="hero-content text-center">
-        <div th:if="${@rq.login}" style="font-size:1.5em; word-break: break-all  ;">
-            <span th:text="|${@rq.member.username}님|"></span>
-            <p>안녕하세요!</p>
-            <div th:if="${@rq.login and @rq.member.hasConnectedInstaMember()}">
-                <span th:text="|(${#lists.size(@rq.member.instaMember.toLikeablePeople)}/${#lists.size(@rq.member.instaMember.fromLikeablePeople)})|"></span>
-            </div>
-        </div>
-        <div th:if="${@rq.logout}">
+        <div >
             <h1 class="text-4xl font-bold">그램그램</h1>
             <div class="py-6 mb-5">
                 <span><i class="fa-regular fa-face-laugh"></i> 그램그램은 당신의 호감을 응원합니다.</span>
             </div>
-            <a class="btn btn-primary btn-wide" href="/usr/member/login">시작하기</a>
+            <a th:if="${@rq.logout}" class="btn btn-primary btn-wide" href="/usr/member/login">시작하기</a>
         </div>
     </div>
 </main>
