@@ -1,6 +1,7 @@
 package com.ll.gramgram.boundedContext.member.controller;
 
 
+import com.ll.gramgram.boundedContext.home.controller.HomeController;
 import com.ll.gramgram.boundedContext.member.entity.Member;
 import com.ll.gramgram.boundedContext.member.service.MemberService;
 import jakarta.servlet.http.HttpSession;
@@ -198,24 +199,24 @@ public class MemberControllerTests {
                 .andExpect(redirectedUrlPattern("/**"));
     }
 
-//    @Test
-//    // @Rollback(value = false) // DB에 흔적이 남는다.
-//    @DisplayName("로그인 후에 내비바에 로그인한 회원의 username")
-//    @WithUserDetails("user1")
-//        // user1로 로그인 한 상태로 진행
-//    void t006() throws Exception {
-//        // WHEN
-//        ResultActions resultActions = mvc
-//                .perform(get("/usr/member/me"))
-//                .andDo(print());
-//
-//        // THEN
-//        resultActions
-//                .andExpect(handler().handlerType(MemberController.class))
-//                .andExpect(handler().methodName("showMe"))
-//                .andExpect(status().is2xxSuccessful())
-//                .andExpect(content().string(containsString("""
-//                        user1님 환영합니다.
-//                        """.stripIndent().trim())));
-//    }
+    @Test
+    // @Rollback(value = false) // DB에 흔적이 남는다.
+    @DisplayName("로그인 후에 내비바에 로그인한 회원의 username")
+    @WithUserDetails("user1")
+        // user1로 로그인 한 상태로 진행
+    void t006() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(get("/"))
+                .andDo(print());
+
+        // THEN
+        resultActions
+                .andExpect(handler().handlerType(HomeController.class))
+                .andExpect(handler().methodName("showMain"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().string(containsString("""
+                        0002
+                        """.stripIndent().trim())));
+    }
 }

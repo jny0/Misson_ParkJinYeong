@@ -119,4 +119,23 @@ public class InstaMember extends BaseEntity {
         if (gender.equals("M") && attractiveTypeCode == 2) likesCountByGenderManAndAttractiveTypeCode2--;
         if (gender.equals("M") && attractiveTypeCode == 3) likesCountByGenderManAndAttractiveTypeCode3--;
     }
+
+
+    public boolean updateGender(String gender) {
+        if (gender.equals(this.gender)) return false;
+
+        String previousGender = this.gender;
+
+        getFromLikeablePeople()
+                .forEach(likeablePerson -> {
+                    // 내가 좋아하는 사람 불러오기
+                    InstaMember toInstaMember = likeablePerson.getToInstaMember();
+                    toInstaMember.decreaseLikesCount(previousGender, likeablePerson.getAttractiveTypeCode());
+                    toInstaMember.increaseLikesCount(gender, likeablePerson.getAttractiveTypeCode());
+                });
+
+        this.gender = gender;
+
+        return true;
+    }
 }

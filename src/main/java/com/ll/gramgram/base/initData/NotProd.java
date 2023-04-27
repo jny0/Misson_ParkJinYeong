@@ -18,24 +18,28 @@ public class NotProd {
             InstaMemberService instaMemberService,
             LikeablePersonService likeablePersonService
     ) {
-        return args -> {
-            Member memberAdmin = memberService.join("admin", "1234").getData();
-            Member memberUser1 = memberService.join("user1", "1234").getData();
-            Member memberUser2 = memberService.join("user2", "1234").getData();
-            Member memberUser3 = memberService.join("user3", "1234").getData();
-            Member memberUser4 = memberService.join("user4", "1234").getData();
-            Member memberUser100 = memberService.join("user100", "1234").getData();
+        return new CommandLineRunner() {
+            @Override
+            public void run(String... args) throws Exception {
 
-            Member memberUser5ByKakao = memberService.whenSocialLogin("KAKAO", "KAKAO__2733201280").getData();
-            Member memberUser6ByGoogle = memberService.whenSocialLogin("GOOGLE", "GOOGLE__105370968237106539016").getData();
-            Member memberUser7ByNaver = memberService.whenSocialLogin("NAVER", "NAVER__ws1Iujwa3jXtKV2TAFtastc8Go0qhra4eHEBrxBPBHU").getData();
+                Member memberAdmin = memberService.join("admin", "1234").getData();
+                Member memberUser1 = memberService.join("user1", "1234").getData();
+                Member memberUser2 = memberService.join("user2", "1234").getData();
+                Member memberUser3 = memberService.join("user3", "1234").getData();
+                Member memberUser4 = memberService.join("user4", "1234").getData();
+                Member memberUser100 = memberService.join("user100", "1234").getData();
 
-            instaMemberService.connect(memberUser2, "insta_user2", "M");
-            instaMemberService.connect(memberUser3, "insta_user3", "W");
-            instaMemberService.connect(memberUser4, "insta_user4", "M");
+                Member memberUser5ByKakao = memberService.whenSocialLogin("KAKAO", "KAKAO__2733201280").getData();
+                Member memberUser6ByGoogle = memberService.whenSocialLogin("GOOGLE", "GOOGLE__105370968237106539016").getData();
+                Member memberUser7ByNaver = memberService.whenSocialLogin("NAVER", "NAVER__ws1Iujwa3jXtKV2TAFtastc8Go0qhra4eHEBrxBPBHU").getData();
 
-            likeablePersonService.like(memberUser3, "insta_user4", 1);
-            likeablePersonService.like(memberUser3, "insta_user100", 2);
+                instaMemberService.connect(memberUser2, "insta_user2", "M");
+                instaMemberService.connect(memberUser3, "insta_user3", "W");
+                instaMemberService.connect(memberUser4, "insta_user4", "M");
+
+                likeablePersonService.like(memberUser3, "insta_user4", 1);
+                likeablePersonService.like(memberUser3, "insta_user100", 2);
+            }
         };
     }
 }
