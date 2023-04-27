@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationEvent;
 public class EventBeforeCancelLike extends ApplicationEvent {
     private final LikeablePerson likeablePerson;
 
-    public EventBeforeCancelLike(Object source, LikeablePerson likeablePerson){
+    public EventBeforeCancelLike(Object source, LikeablePerson likeablePerson) {
         super(source);
         this.likeablePerson = likeablePerson;
     }

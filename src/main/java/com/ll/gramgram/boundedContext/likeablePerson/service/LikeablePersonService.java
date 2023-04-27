@@ -32,8 +32,8 @@ public class LikeablePersonService {
 
         RsData canLikeRsData = canLike(actor, username, attractiveTypeCode);
 
-        if(canLikeRsData.isFail()) return canLikeRsData;
-        if(canLikeRsData.getResultCode().equals("S-2")) return modifyAttractive(actor,username, attractiveTypeCode);
+        if (canLikeRsData.isFail()) return canLikeRsData;
+        if (canLikeRsData.getResultCode().equals("S-2")) return modifyAttractive(actor, username, attractiveTypeCode);
 
         InstaMember fromInstaMember = actor.getInstaMember();
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
@@ -99,7 +99,7 @@ public class LikeablePersonService {
         return RsData.of("S-1", "취소 가능합니다.");
     }
 
-    private RsData canLike(Member actor, String username, int attractiveTypeCode){
+    private RsData canLike(Member actor, String username, int attractiveTypeCode) {
         if (!actor.hasConnectedInstaMember()) {
             return RsData.of("F-1", "먼저 본인의 인스타그램 계정을 입력해야 합니다.");
         }
@@ -117,7 +117,7 @@ public class LikeablePersonService {
                 .orElse(null);
 
         // 중복 체크
-        if (fromLikeablePerson != null ) {
+        if (fromLikeablePerson != null) {
             if (fromLikeablePerson.getAttractiveTypeCode() != attractiveTypeCode) {
                 return RsData.of("S-2", "%s님에 대해서 호감 표시가 가능합니다.".formatted(username));
             }

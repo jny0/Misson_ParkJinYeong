@@ -9,7 +9,7 @@ public class EventAfterFromInstaMemberChangeGender extends ApplicationEvent {
     private final InstaMember instaMember;
     private final String previousGender;
 
-    public EventAfterFromInstaMemberChangeGender(Object source, InstaMember instaMember, String previousGender){
+    public EventAfterFromInstaMemberChangeGender(Object source, InstaMember instaMember, String previousGender) {
         super(source);
         this.instaMember = instaMember;
         this.previousGender = previousGender;

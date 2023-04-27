@@ -1,6 +1,5 @@
 package com.ll.gramgram.boundedContext.likeablePerson.controller;
 
-import com.ll.gramgram.base.appConfig.AppConfig;
 import com.ll.gramgram.base.rq.Rq;
 import com.ll.gramgram.base.rsData.RsData;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
@@ -17,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/usr/likeablePerson")
@@ -77,7 +75,7 @@ public class LikeablePersonController {
 
         RsData canCancelRsDate = likeablePersonService.canCancel(rq.getMember(), likeablePerson);
 
-        if(canCancelRsDate.isFail()) return rq.historyBack(canCancelRsDate);
+        if (canCancelRsDate.isFail()) return rq.historyBack(canCancelRsDate);
 
         RsData cancelRsData = likeablePersonService.cancel(likeablePerson);
 

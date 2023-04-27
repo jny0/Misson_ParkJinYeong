@@ -76,7 +76,8 @@
                                    onchange="$(this).keyup();"
                                    onkeyup="$(this).next().children(':last-child').text(this.value.trim());"
                                    onpaste="setTimeoutZero(() => $(this).keyup());"/>
-                            <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank"
+                            <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));"
+                               target="_blank"
                                class="block mt-3 text-sm break-all underline text-blue-400">
                                 <span>https://instagram.com/</span><span class="text-red-300"></span>
                             </a>
@@ -117,7 +118,8 @@
                     </form>
                     <div class="text-center">
                         <a th:if="${@rq.member.hasConnectedInstaMember}" href="list" class="btn btn-link">호감목록</a>
-                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/member/me" class="btn btn-link">내 정보</a>
+                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/member/me" class="btn btn-link">내
+                            정보</a>
                     </div>
                 </div>
             </div>

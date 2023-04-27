@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -55,8 +56,8 @@ public class LikeablePersonControllerTests {
                 .andExpect(handler().methodName("showLike"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().string(containsString("""
-                       먼저 나의 인스타 계정을 등록해주세요.
-                        """.stripIndent().trim())))
+                        먼저 나의 인스타 계정을 등록해주세요.
+                         """.stripIndent().trim())))
         ;
     }
 
@@ -87,8 +88,8 @@ public class LikeablePersonControllerTests {
                         <input type="radio" name="attractiveTypeCode" value="3"
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
-                       <span>호감 표시</span>
-                        """.stripIndent().trim())));
+                        <span>호감 표시</span>
+                         """.stripIndent().trim())));
         ;
     }
 
@@ -186,6 +187,7 @@ public class LikeablePersonControllerTests {
                 .andExpect(status().is3xxRedirection());
         ;
     }
+
     @Test
     @DisplayName("호감목록")
     @WithUserDetails("user3")
@@ -285,7 +287,7 @@ public class LikeablePersonControllerTests {
     @Test
     @DisplayName("이미 등록한 상대 다시 등록 불가능")
     @WithUserDetails("user3")
-    void t009() throws Exception{
+    void t009() throws Exception {
         ResultActions resultActions = mvc
                 .perform(post("/usr/likeablePerson/like")
                         .with(csrf()) // CSRF 키 생성
@@ -304,7 +306,7 @@ public class LikeablePersonControllerTests {
     @Test
     @DisplayName("호감 상대 매력 수정(이미 등록한 상대를 다른 매력포인트로 등록할 경우)")
     @WithUserDetails("user3")
-    void t010() throws Exception{
+    void t010() throws Exception {
         ResultActions resultActions = mvc
                 .perform(post("/usr/likeablePerson/like")
                         .with(csrf()) // CSRF 키 생성
