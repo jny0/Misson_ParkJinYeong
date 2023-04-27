@@ -109,16 +109,16 @@ public class LikeablePersonServiceTests {
         }
 
         // v4
-        LikeablePerson oldLikeablePerson = instaMemberInstaUser3
+        LikeablePerson previousLikeablePerson = instaMemberInstaUser3
                 .getFromLikeablePeople()
                 .stream()
                 .filter(lp -> lp.getToInstaMember().getUsername().equals(usernameToLike))
                 .findFirst()
                 .orElse(null);
 
-        if (oldLikeablePerson != null) {
+        if (previousLikeablePerson != null) {
             System.out.println("v4 : 이미 나(인스타아이디 : insta_user3)는 insta_user4에게 호감을 표시 했구나.");
-            System.out.println("v4 : 기존 호감사유 : %s".formatted(oldLikeablePerson.getAttractiveTypeDisplayName()));
+            System.out.println("v4 : 기존 호감사유 : %s".formatted(previousLikeablePerson.getAttractiveTypeDisplayName()));
         }
     }
 }
