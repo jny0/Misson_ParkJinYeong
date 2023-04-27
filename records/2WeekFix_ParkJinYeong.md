@@ -10,14 +10,16 @@
 - [x] Controller에서 Service를 이용해서 권한체크
 - [x] 유효성 및 권한체크 로직 분리 (`canCancel`)
 - [x] 호감 취소 시 양방향 관계 고려 (호감 취소한 사람 / 취소된 사람에게 알려줌)
+- [x] 호감 사유 변경시 수치 변경
 ###
 
-**호감 표시 기능 관련 리팩토링**
+  **호감 표시 기능 관련 리팩토링**
 - [x] 변수명 `add`에서 `like`로 변경
 - [x] `canLike` 생성 -> 유효성 및 권한 체크 로직 분리
 - [x] `canModifyAttractive` 생성 -> 매력포인트 수정 로직 분리
 - [x] Test에서 JPA를 사용해서 조회
 - [X] LikeablePersonServiceTests 도입
+- [x] instaMember에 수치 기록
 
 ###
 **호감 사유 변경 폼 추가**

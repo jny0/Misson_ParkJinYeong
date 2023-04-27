@@ -31,6 +31,19 @@ public class LikeablePerson extends BaseEntity {
     private String toInstaMemberUsername; // 혹시 몰라서 기록
     private int attractiveTypeCode; // 매력포인트(1=외모, 2=성격, 3=능력)
 
+    //캡슐화를 위해 setter대신 메서드 추가
+
+    public boolean updateAttractiveTypeCode(int attractiveTypeCode){
+
+        if(this.attractiveTypeCode == attractiveTypeCode) return false;
+
+        toInstaMember.decreaseLikesCount(fromInstaMember.getGender(), this.attractiveTypeCode);
+        toInstaMember.increaseLikesCount(fromInstaMember.getGender(), attractiveTypeCode);
+
+        this.attractiveTypeCode = attractiveTypeCode;
+        return true;
+    }
+
     public String getAttractiveTypeDisplayName() {
         return switch (attractiveTypeCode) {
             case 1 -> "외모";
@@ -38,12 +51,6 @@ public class LikeablePerson extends BaseEntity {
             default -> "능력";
         };
     }
-
-    //캡슐화를 위해 setter대신 메서드 추가
-    public void updateAttractiveTypeCode(int attractiveTypeCode){
-        this.attractiveTypeCode = attractiveTypeCode;
-    }
-
 
     public String getAttractiveTypeDisplayNameWithIcon() {
         return switch (attractiveTypeCode) {

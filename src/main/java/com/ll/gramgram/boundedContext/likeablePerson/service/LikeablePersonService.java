@@ -50,6 +50,8 @@ public class LikeablePersonService {
         // 나를 좋아하는 상대
         toInstaMember.likeToLikeablePerson(likeablePerson);
 
+        toInstaMember.increaseLikesCount(fromInstaMember.getGender(), attractiveTypeCode);
+
         return RsData.of("S-1", "입력하신 상대(%s)에 대한 호감 표시가 등록되었습니다.".formatted(username), likeablePerson);
     }
 
@@ -64,14 +66,14 @@ public class LikeablePersonService {
 
     @Transactional
     public RsData<LikeablePerson> cancel(LikeablePerson likeablePerson) {
-        String toInstaMemberUsername = likeablePerson.getToInstaMember().getUsername();
-        likeablePersonRepository.delete(likeablePerson);
+        likeablePerson.getToInstaMember().decreaseLikesCount(likeablePerson.getFromInstaMember().getGender(), likeablePerson.getAttractiveTypeCode());
 
         // 내가 한 호감 표시 사라짐
         likeablePerson.getFromInstaMember().removeFromLikeablePerson(likeablePerson);
         // 누군가가 나에 대해 한 호감 표시 사라짐
         likeablePerson.getToInstaMember().removeToLikeablePerson(likeablePerson);
 
+        likeablePersonRepository.delete(likeablePerson);
         String likeCanceledUsername = likeablePerson.getToInstaMember().getUsername();
         return RsData.of("S-1", "해당 상대(%s)에 대한 호감을 취소했습니다.".formatted(likeCanceledUsername));
     }
