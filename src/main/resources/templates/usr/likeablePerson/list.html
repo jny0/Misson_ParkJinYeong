@@ -1,7 +1,7 @@
-<html layout:decorate="~{usr/layout/layout.html}">
+<html layout:decorate="~{/usr/layout/layout.html}">
 
 <head>
-    <title>당신이 좋아하는 사람들</title>
+    <title>호감 목록</title>
 </head>
 
 <body>
@@ -11,20 +11,21 @@
 
     <div class="flex flex-col">
         <div class="hero-content flex-col">
-            <div class="text-center mb-5">
-                <h1 class="text-5xl my-2 font-bold">호감 상대 목록</h1>
+            <div class="text-center my-5">
+                <h1 class="text-5xl my-2 font-bold">호감 목록</h1>
             </div>
             <div class="max-w-2xl w-full px-4">
-                <th:block th:unless="${@rq.member.hasConnectedInstaMember}">
-                    <div class="card shadow-2xl bg-base-100">
-                        <div class=" card-body flex flex-col gap-4">
-                            <div>먼저 나의 인스타그램 계정을 등록해주세요.</div>
-                            <a href="/instaMember/connect" class="btn btn-primary">인스타 등록하러 가기</a>
-                        </div>
-                    </div>
-                </th:block>
+                <div th:unless="${@rq.member.hasConnectedInstaMember}" th:include="/usr/part/needToConnect::base"></div>
 
                 <th:block th:if="${@rq.member.hasConnectedInstaMember}">
+
+                    <div th:unless="${!#lists.isEmpty(likeablePeople)}" class="text-center">
+                        <div>
+                            <i class="fa-regular fa-face-laugh"></i> 목록이 비어있습니다.
+                            <p>당신의 호감을 표시해주세요.</p>
+                            <a href="/usr/likeablePerson/like" class="btn btn-primary mt-5">호감 표시하러 가기</a>
+                        </div>
+                    </div>
 
                     <ul class="flex flex-col gap-4">
                         <li th:each="likeablePerson: ${likeablePeople}">
@@ -55,7 +56,7 @@
                                         <a class="btn btn-sm btn-outline" href="javascript:;"
                                            onclick="if ( confirm('정말로 취소하시겠습니까?') ) $(this).next().submit();">
                                             호감취소</a>
-                                        <form hidden th:action="@{|/likeablePerson/${likeablePerson.id}|}"
+                                        <form hidden th:action="@{|/usr/likeablePerson/${likeablePerson.id}|}"
                                               method="POST">
                                             <input type="hidden" name="_method" value="delete">
                                         </form>

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Controller
-@RequestMapping("/likeablePerson")
+@RequestMapping("/usr/likeablePerson")
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class LikeablePersonController {
@@ -28,7 +28,7 @@ public class LikeablePersonController {
 
     @GetMapping("/like")
     public String showLike() {
-        return "usr/likeablePerson/like";
+        return "/usr/likeablePerson/like";
     }
 
     @AllArgsConstructor
@@ -46,7 +46,7 @@ public class LikeablePersonController {
             return rq.historyBack(rsData);
         }
 
-        return rq.redirectWithMsg("/likeablePerson/list", rsData);
+        return rq.redirectWithMsg("/usr/likeablePerson/list", rsData);
     }
 
     @GetMapping("/list")
@@ -60,7 +60,7 @@ public class LikeablePersonController {
             model.addAttribute("likeablePeople", likeablePeople);
         }
 
-        return "usr/likeablePerson/list";
+        return "/usr/likeablePerson/list";
     }
 
 
@@ -77,7 +77,7 @@ public class LikeablePersonController {
 
         if (cancelRsData.isFail()) return rq.historyBack((cancelRsData));
 
-        return rq.redirectWithMsg("/likeablePerson/list", cancelRsData);
+        return rq.redirectWithMsg("/usr/likeablePerson/list", cancelRsData);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -91,7 +91,7 @@ public class LikeablePersonController {
 
         model.addAttribute("likeablePerson", likeablePerson);
 
-        return "usr/likeablePerson/modify";
+        return "/usr/likeablePerson/modify";
     }
 
     @AllArgsConstructor
@@ -109,6 +109,6 @@ public class LikeablePersonController {
             return rq.historyBack(rsData);
         }
 
-        return rq.redirectWithMsg("/likeablePerson/list", rsData);
+        return rq.redirectWithMsg("/usr/likeablePerson/list", rsData);
     }
 }
