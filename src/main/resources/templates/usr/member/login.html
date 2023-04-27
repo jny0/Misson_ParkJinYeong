@@ -1,7 +1,7 @@
 <html layout:decorate="~{/usr/layout/layout.html}">
 
 <head>
-    <title>로그인</title>
+    <title>시작하기</title>
 </head>
 
 <body>
@@ -48,43 +48,48 @@
 
     <div class="hero-content flex-col">
         <div class="text-center">
-            <h2 class="text-4xl mb-5 mx-5 font-bold">그램그램 로그인</h2>
+            <h2 class="text-4xl mb-5 mx-5 font-bold">그램그램 시작하기</h2>
         </div>
         <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <div class="card-body">
-                <form th:action method="POST" onsubmit="LoginForm__submit(this); return false;">
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">ID</span>
-                        </label>
-                        <input type="text" name="username" maxlength="30" placeholder="아이디"
-                               class="input input-bordered">
-                    </div>
-                    <div class="form-control mt-3">
-                        <label class="label">
-                            <span class="label-text">Password</span>
-                        </label>
-                        <input type="password" name="password" maxlength="30" placeholder="비밀번호"
-                               class="input input-bordered">
-                    </div>
-                    <div class="form-control mt-8 gap-4">
-                        <input type="submit" value="로그인" class="btn btn-primary">
-                        <div class="divider"></div>
-                        <a class="btn btn-outline btn-warning flex gap-2" href="/oauth2/authorization/kakao">
-                            <i class="fa-solid fa-comment"></i>
-                            카카오 로그인
-                        </a>
+                <form th:action method="POST" class="flex flex-col gap-6 m-1"
+                      onsubmit="LoginForm__submit(this); return false;">
+                    <th:block th:if="${param.admin}">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">ID</span>
+                            </label>
+                            <input type="text" name="username" maxlength="30" placeholder="아이디"
+                                   class="input input-bordered">
+                        </div>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Password</span>
+                            </label>
+                            <input type="password" name="password" maxlength="30" placeholder="비밀번호"
+                                   class="input input-bordered">
+                        </div>
+                        <div class="form-control gap-4">
+                            <input type="submit" value="로그인" class="btn btn-primary">
+                            <div class="divider"></div>
+                        </div>
+                    </th:block>
 
-                        <a class="btn btn-outline btn-error flex gap-2" href="/oauth2/authorization/google">
-                            <i class="fa-brands fa-google"></i>
-                            구글 로그인
-                        </a>
+                    <a class="btn btn-outline btn-warning flex gap-2" href="/oauth2/authorization/kakao">
+                        <i class="fa-solid fa-comment"></i>
+                        카카오로 시작하기
+                    </a>
 
-                        <a class="btn btn-outline btn-success flex gap-2" href="/oauth2/authorization/naver">
-                            <i class="fa-solid fa-n"></i>
-                            네이버 로그인
-                        </a>
-                    </div>
+                    <a class="btn btn-outline btn-error flex gap-2" href="/oauth2/authorization/google">
+                        <i class="fa-brands fa-google"></i>
+                        구글로 시작하기
+                    </a>
+
+                    <a class="btn btn-outline btn-success flex gap-2" href="/oauth2/authorization/naver">
+                        <i class="fa-solid fa-n"></i>
+                        네이버로 시작하기
+                    </a>
+
                 </form>
             </div>
         </div>
