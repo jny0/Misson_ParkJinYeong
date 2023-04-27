@@ -23,7 +23,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class) // @CreatedDate, @LastModifiedDate 작동하게 허용
 @ToString // 디버그를 위한
-public class BaseEntity {
+public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
