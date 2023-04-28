@@ -14,13 +14,13 @@
             form.username.value = form.username.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
 
             if (form.username.value.length == 0) {
-                toastWarning('아이디를 입력해주세요.');
+                toastWarning('계정을 입력해주세요.');
                 form.username.focus();
                 return;
             }
 
             if (form.username.value.length < 4) {
-                toastWarning('아이디를 4자 이상 입력해주세요.');
+                toastWarning('계정을 4자 이상 입력해주세요.');
                 form.username.focus();
                 return;
             }
@@ -58,7 +58,7 @@
                             <label class="label">
                                 <span class="label-text">ID</span>
                             </label>
-                            <input type="text" name="username" maxlength="30" placeholder="아이디"
+                            <input type="text" name="username" maxlength="30" placeholder="계정"
                                    class="input input-bordered">
                         </div>
                         <div class="form-control mt-3">

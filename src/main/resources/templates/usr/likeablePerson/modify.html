@@ -50,63 +50,55 @@
                                 <span><i class="fa-brands fa-instagram"></i></span>
                                 <div th:text="${likeablePerson.toInstaMember.username}"></div>
                             </h2>
-                            <a th:href="@{|https://instagram.com/${likeablePerson.toInstaMember.username}|}"
-                               target="_blank"
-                               class="block mt-3 text-sm break-all underline text-blue-400">
-                                <span>https://instagram.com/</span><span
-                                    th:text="${likeablePerson.toInstaMember.username}"
-                                    class="text-red-300"></span>
-                            </a>
+                            <div class="divider !mt-5 !mb-0"></div>
                         </div>
 
+                        <div class="form-control ">
+                            <table class="table w-full !text-center">
+                                <tr>
+                                    <td>기존 호감 사유</td>
+                                    <td>
+                                        <span class="badge badge-lg badge-secondary" th:utext="${likeablePerson.attractiveTypeDisplayNameWithIcon}"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>변경할</br>호감 사유</td>
+                                    <td>
+                                        <div class="flex flex-col justify-center gap-4">
+                                            <label class="flex gap-2 items-center cursor-pointer">
+                                                <input type="radio" name="attractiveTypeCode" value="1" class="radio peer">
+                                                <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
+                                                    <i class="fa-solid fa-person-rays"></i>
+                                                    외모
+                                                </span>
+                                            </label>
+                                            <label class="flex gap-2 items-center cursor-pointer">
+                                                <input type="radio" name="attractiveTypeCode" value="2" class="radio peer">
+                                                <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
+                                                    <i class="fa-regular fa-face-smile"></i>
+                                                    성격
+                                                </span>
+                                            </label>
 
-                        <div class="form-control">
-                            <label class="label">
-                                <span class="label-text">기존 호감사유</span>
-                            </label>
-                            <div class="badge badge-primary"
-                                 th:text="${likeablePerson.attractiveTypeDisplayName}"></div>
+                                            <label class="flex gap-2 items-center cursor-pointer">
+                                                <input type="radio" name="attractiveTypeCode" value="3" class="radio peer">
+                                                <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
+                                                    <i class="fa-solid fa-people-roof"></i>
+                                                    능력
+                                                </span>
+                                            </label>
+
+                                            <script th:inline="javascript">
+                                                $(`input[name=attractiveTypeCode][value=${inputValue__attractiveTypeCode}]:last`)
+                                                    .prop('checked', true)
+                                                    .prop('disabled', true);
+                                            </script>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
 
-                        <div class="form-control">
-                            <label class="label">
-                                <span class="label-text">변경할 호감사유</span>
-                            </label>
-
-                            <!-- 라벨을 클릭하면 라벨의 하위요소인 버튼(체크,라디오,일반 등)이 클릭되는 효과) -->
-                            <div class="flex flex-col justify-center gap-4">
-                                <label class="flex gap-2 items-center cursor-pointer">
-                                    <input type="radio" name="attractiveTypeCode" value="1" class="radio peer">
-                                    <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
-                                <i class="fa-solid fa-person-rays"></i>
-                                외모
-                            </span>
-                                </label>
-
-                                <label class="flex gap-2 items-center cursor-pointer">
-                                    <input type="radio" name="attractiveTypeCode" value="2" class="radio peer">
-                                    <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
-                                <i class="fa-regular fa-face-smile"></i>
-                                성격
-                            </span>
-                                </label>
-
-                                <label class="flex gap-2 items-center cursor-pointer">
-                                    <input type="radio" name="attractiveTypeCode" value="3" class="radio peer">
-                                    <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
-                                <i class="fa-solid fa-people-roof"></i>
-                                능력
-                            </span>
-                                </label>
-
-                                <script th:inline="javascript">
-                                    $(`input[name=attractiveTypeCode][value=${inputValue__attractiveTypeCode}]:last`)
-                                        .prop('checked', true)
-                                        .prop('disabled', true);
-                                </script>
-                            </div>
-
-                        </div>
 
                         <button id="btn-modify-like-1" class="btn btn-block btn-primary gap-1">
                             <i class="fa-solid fa-pen-to-square"></i>
@@ -115,12 +107,14 @@
                     </form>
 
                     <div class="text-center mt-4">
-                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/likeablePerson/like"
-                           class="btn btn-link">호감 표시</a>
-                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/likeablePerson/list"
-                           class="btn btn-link">호감 목록</a>
-                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/member/me" class="btn btn-link">내
-                            정보</a>
+                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/likeablePerson/like" class="btn btn-link">
+                            <span><i class="fa-solid fa-heart-circle-plus mr-1"></i>
+                                호감표시&nbsp;</span>
+                        </a>
+                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/likeablePerson/list" class="btn btn-link">
+                            <span><i class="fa-solid fa-list-ol mr-1"></i>
+                                호감목록</span>
+                        </a>
                     </div>
                 </div>
             </div>

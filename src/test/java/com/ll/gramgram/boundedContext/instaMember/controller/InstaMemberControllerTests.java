@@ -108,7 +108,7 @@ public class InstaMemberControllerTests {
     }
 
     @Test
-    @DisplayName("인스타 아이디 입력, 이미 우리 시스템에 성별 U 로 등록되어 있는 경우")
+    @DisplayName("인스타 계정 입력, 이미 우리 시스템에 성별 U 로 등록되어 있는 경우")
     @WithUserDetails("user1")
     void t004() throws Exception {
         // WHEN
