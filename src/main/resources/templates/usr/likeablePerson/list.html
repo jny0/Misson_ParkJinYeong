@@ -42,17 +42,34 @@
                                                                                  th:text="${likeablePerson.toInstaMember.username}"></span>
                                     </a>
 
-                                    <div class="mt-4">
-                                        <div class="badge badge-primary -ml-2">호감사유</div>
-                                        <div class="mt-1"
-                                             th:data-test="|toInstaMember_attractiveTypeDisplayName=${likeablePerson.attractiveTypeDisplayName}|"
-                                             th:utext="${likeablePerson.attractiveTypeDisplayNameWithIcon}"></div>
+                                    <table class="table w-full my-5 ">
+                                        <tr>
+                                            <td>호감 표시</td>
+                                            <td><i class="fa-regular fa-clock"></i>
+                                                <span th:text="${#temporals.format(likeablePerson.createDate, 'yy-MM-dd HH:mm')}"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>호감 사유</td>
+                                            <td>
+                                                <div th:data-test="|toInstaMember_attractiveTypeDisplayName=${likeablePerson.attractiveTypeDisplayName}|"
+                                                      th:utext="${likeablePerson.attractiveTypeDisplayNameWithIcon}"></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <div class="my-5 flex flex-col gap-2  items-center">
+                                        <div>
+                                            <i class="fa-regular fa-face-laugh-beam"></i>
+                                            상대에게 보여지는 내 사진
+                                        </div>
+                                        <svg th:data-jdenticon-value="|${likeablePerson.jdenticon}|" width="120"
+                                             height="120"></svg>
                                     </div>
 
-                                    <div class="card-actions justify-end">
+                                    <div class="card-actions justify-center mt-5">
                                         <a th:href="@{|modify/${likeablePerson.id}|}" class="btn btn-sm btn-outline">
                                             호감사유 변경</a>
-
                                         <a class="btn btn-sm btn-outline" href="javascript:;"
                                            onclick="if ( confirm('정말로 취소하시겠습니까?') ) $(this).next().submit();">
                                             호감취소</a>

@@ -54,11 +54,20 @@
                     </div>
                     <!-- 내 정보 끝 -->
 
+
+                    <div class="divider !mt-14 !mb-4"></div>
+                    <div class="text-center mt-4 mb-4">
+                        <a href="/usr/likeablePerson/toList" class="text-4xl my-2 font-bold block">
+                            내 인기
+                        </a>
+                    </div>
+
+
                     <!-- 호감 사유별 인기 시작 -->
                     <div class="card flex-shrink-0 shadow-2xl bg-base-100">
                         <div class="card-body">
                             <h2 class="card-title mb-3">
-                                <i class="fa-solid fa-list-check"></i> 호감 사유별 인기
+                                <i class="fa-solid fa-check"></i> 호감 사유별 인기
                             </h2>
 
                             <table class="table w-full !text-center">
@@ -199,9 +208,9 @@
                     <div class="divider !mt-14 !mb-4"></div>
 
                     <div class="text-center mt-4 mb-4">
-                        <h1 class="text-4xl my-2 font-bold">
+                        <a href="/usr/likeablePerson/toList" class="text-4xl my-2 font-bold block">
                             최근에 받은 호감
-                        </h1>
+                        </a>
                     </div>
 
                     <div th:if="${#lists.isEmpty(@rq.member.instaMember.toLikeablePeople)}">
@@ -217,9 +226,14 @@
                         <div class="card flex-shrink-0 shadow-2xl bg-base-100"
                              th:each="likeablePerson, i: ${@rq.member.instaMember.toLikeablePeople}">
                             <div class="card-body">
-                                <h2 class="card-title">
+                                <a href="#" class="card-title flex items-start">
                                     <span th:text="|No. ${i.index + 1} / ${i.size}|"></span>
-                                </h2>
+                                </a>
+
+                                <div class="my-3 flex justify-center">
+                                    <svg th:data-jdenticon-value="|${likeablePerson.jdenticon}|" width="120"
+                                         height="120"></svg>
+                                </div>
 
                                 <table class="table w-full ">
                                     <tr>
@@ -230,14 +244,14 @@
                                     </tr>
                                     <tr>
                                         <td> 성별</td>
-                                        <td><i class="fa-solid fa-person-half-dress"></i>
-                                            <span th:text="${likeablePerson.fromInstaMember.genderDisplayName}"></span>
+                                        <td>
+                                            <span th:utext="${likeablePerson.fromInstaMember.genderDisplayNameWithIcon}"></span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>호감 사유</td>
-                                        <td><i class="fa-solid fa-circle-info"></i>
-                                            <span th:text="${likeablePerson.attractiveTypeDisplayName}"></span>
+                                        <td>
+                                            <span th:utext="${likeablePerson.attractiveTypeDisplayNameWithIcon}"></span>
                                         </td>
                                     </tr>
                                 </table>
