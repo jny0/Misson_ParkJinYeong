@@ -1,0 +1,71 @@
+<html layout:decorate="~{usr/layout/layout.html}">
+
+<head>
+    <title>인스타 아이디 입력</title>
+</head>
+
+<body>
+
+<main layout:fragment="main" class="flex-grow flex items-center justify-center">
+    <script>
+        function ConnectForm__submit(form) {
+            // username 이(가) 올바른지 체크
+
+            const $checkedGenderRadioButton = $(form).find("[name=gender]:checked");
+
+            if ($checkedGenderRadioButton.length === 0) {
+                toastWarning('성별을 선택해주세요.');
+                $(form).find("[name=gender]:first").focus();
+                return;
+            }
+
+            form.submit(); // 폼 발송
+        }
+    </script>
+
+
+    <div class=" w-full max-w-md flex flex-col">
+        <div class="text-center mb-5">
+            <h1 class="text-4xl my-2 font-bold">마이 인스타그램</h1>
+            <h1 class="text-4xl my-2 font-bold">계정 연결</h1>
+        </div>
+        <div class="card w-full max-w-2xl shadow-2xl bg-base-100">
+            <div class="card-body">
+                <form class="flex flex-col gap-6" method="POST" th:action
+                      onsubmit="ConnectForm__submit(this); return false;">
+                    <div class="form-control mb-3">
+                        <label class="label mb-3">
+                            <span class="label-text">
+                                <i class="fa-solid fa-person-half-dress"></i>
+                                나의 성별
+                            </span>
+                        </label>
+
+                        <div class="flex justify-around">
+                            <label class="flex gap-2 items-center cursor-pointer">
+                                <input type="radio" name="gender" value="W" class="radio peer">
+
+                                여성
+                                </span>
+                            </label>
+                            <label class="flex gap-2 items-center cursor-pointer">
+                                <input type="radio" name="gender" value="M" class="radio peer">
+                                남성
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <button id="btn-insta-member-connect-1"
+                            class="btn btn-block btn-outline gap-1">
+                        <i class="fa-brands fa-instagram text-[color:#E1306C]"></i>
+                        <span>인스타 계정 연결</span>
+                    </button>
+
+                </form>
+            </div>
+</main>
+</body>
+
+</html>

@@ -2,10 +2,7 @@ package com.ll.gramgram.boundedContext.instaMember.entity;
 
 import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -31,8 +28,17 @@ public class InstaMember extends InstaMemberBase {
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime modifyDate;
+
+    @Setter
     @Column(unique = true)
     private String username;
+
+    @Setter
+    @Column(unique = true)
+    private String oauthId;
+
+    @Setter
+    private String accessToken;
 
     @OneToMany(mappedBy = "fromInstaMember", cascade = {CascadeType.ALL})
     @OrderBy("id desc") // 정렬

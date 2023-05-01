@@ -6,10 +6,11 @@
 
 [사전작업]
 - [x] 페이스북 로그인
-    
-      
-
-
+- [x] 인스타 인증
+  - [x] 스프링 시큐리티를 개조하여 인스타 아이디 얻기
+  - [x] 인스타그램 Instagram Basic Display API 를 이용한 계정연결
+  - [x] 카카오/네이버/구글 로그인 redirect url에 https적용
+- [x] NotProd.java 에 있던 소셜 로그인 관련 내용 application-secret.yml 로 옮김
 
 **[필수과제]** 네이버 클라우드 플랫폼을 통한 배포
 
