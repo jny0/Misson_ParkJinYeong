@@ -1,3 +1,10 @@
+server:
+  port: 443
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store-password: 123456
+    key-store: keystore.p12
 spring:
   config:
     import:
@@ -19,8 +26,8 @@ spring:
         registration:
           kakao:
             clientId: ${kakao-client-id}
-            scope:
             client-name: Kakao
+            scope:
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             client-authentication-method: POST
@@ -37,6 +44,12 @@ spring:
             scope: profile,email
             redirect-uri: http://localhost:8080/login/oauth2/code/naver
             authorization-grant-type: authorization_code
+          facebook:
+            clientId: ${facebook-client-id}
+            clientSecret: ${facebook-client-secret}
+            client-name: Facebook
+            scope:
+            redirect-uri:  https://localhost/login/oauth2/code/facebook
         provider:
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize
