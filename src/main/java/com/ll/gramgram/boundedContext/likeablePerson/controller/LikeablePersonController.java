@@ -1,12 +1,12 @@
 package com.ll.gramgram.boundedContext.likeablePerson.controller;
 
-import com.ll.gramgram.base.appConfig.AppConfig;
 import com.ll.gramgram.base.rq.Rq;
 import com.ll.gramgram.base.rsData.RsData;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
 import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import com.ll.gramgram.boundedContext.likeablePerson.service.LikeablePersonService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,37 +16,41 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Controller
-@RequestMapping("/likeablePerson")
+@RequestMapping("/usr/likeablePerson")
 @RequiredArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class LikeablePersonController {
     private final Rq rq;
     private final LikeablePersonService likeablePersonService;
 
-    @GetMapping("/add")
-    public String showAdd() {
-        return "usr/likeablePerson/add";
+    @GetMapping("/like")
+    public String showLike() {
+        return "/usr/likeablePerson/like";
     }
 
     @AllArgsConstructor
     @Getter
-    public static class AddForm {
+    public static class LikeForm {
+        @NotBlank
+        @Size(min = 3, max = 30)
         private final String username;
+        @NotNull
+        @Min(1)
+        @Max(3)
         private final int attractiveTypeCode;
     }
 
-    @PostMapping("/add")
-    public String add(@Valid AddForm addForm) {
-        RsData<LikeablePerson> createRsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
+    @PostMapping("/like")
+    public String like(@Valid LikeForm likeForm) {
+        RsData<LikeablePerson> rsData = likeablePersonService.like(rq.getMember(), likeForm.getUsername(), likeForm.getAttractiveTypeCode());
 
-        if (createRsData.isFail()) {
-            return rq.historyBack(createRsData);
+        if (rsData.isFail()) {
+            return rq.historyBack(rsData);
         }
 
-        return rq.redirectWithMsg("/likeablePerson/list", createRsData);
+        return rq.redirectWithMsg("/usr/likeablePerson/list", rsData);
     }
 
     @GetMapping("/list")
@@ -60,30 +64,66 @@ public class LikeablePersonController {
             model.addAttribute("likeablePeople", likeablePeople);
         }
 
-        return "usr/likeablePerson/list";
+        return "/usr/likeablePerson/list";
     }
 
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        InstaMember instaMember = rq.getMember().getInstaMember();
+    public String cancel(@PathVariable("id") Long id) {
+
         LikeablePerson likeablePerson = likeablePersonService.findById(id).orElse(null);
 
-        if (likeablePerson == null) {
-            return rq.historyBack("이미 삭제된 항목입니다");
+        RsData canCancelRsDate = likeablePersonService.canCancel(rq.getMember(), likeablePerson);
+
+        if (canCancelRsDate.isFail()) return rq.historyBack(canCancelRsDate);
+
+        RsData cancelRsData = likeablePersonService.cancel(likeablePerson);
+
+        if (cancelRsData.isFail()) return rq.historyBack((cancelRsData));
+
+        return rq.redirectWithMsg("/usr/likeablePerson/list", cancelRsData);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    public String showModify(@PathVariable Long id, Model model) {
+        LikeablePerson likeablePerson = likeablePersonService.findById(id).orElseThrow();
+
+        RsData canModifyRsData = likeablePersonService.canModifyLike(rq.getMember(), likeablePerson);
+
+        if (canModifyRsData.isFail()) return rq.historyBack(canModifyRsData);
+
+        model.addAttribute("likeablePerson", likeablePerson);
+
+        return "/usr/likeablePerson/modify";
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ModifyForm {
+        @NotNull
+        @Min(1)
+        @Max(3)
+        private final int attractiveTypeCode;
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    public String modify(@PathVariable Long id, @Valid ModifyForm modifyForm) {
+        RsData<LikeablePerson> rsData = likeablePersonService.modifyAttractive(rq.getMember(), id, modifyForm.getAttractiveTypeCode());
+
+        if (rsData.isFail()) {
+            return rq.historyBack(rsData);
         }
 
-        // 삭제 항목 소유권 체크
-        // 현재 로그인한 회원의 인스타 정보와 삭제하려는 상대를 등록한 회원의 인스타 정보가 같지 않으면 오류
-        // Objects.equals 객체의 주소를 비교
-        if (!Objects.equals(likeablePerson.getFromInstaMember().getId(), instaMember.getId())) {
-            return rq.historyBack("삭제 권한이 없습니다.");
-        }
+        return rq.redirectWithMsg("/usr/likeablePerson/list", rsData);
+    }
 
-        RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(likeablePerson);
-
-        if (deleteRsData.isFail()) return rq.historyBack((deleteRsData));
-
-        return rq.redirectWithMsg("/likeablePerson/list", deleteRsData);
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/toList")
+    @ResponseBody
+    public String showToList(Model model) {
+        //TODO : showToList 구현해야 함
+        return "usr/likeablePerson/toList 구현해야 함";
     }
 }

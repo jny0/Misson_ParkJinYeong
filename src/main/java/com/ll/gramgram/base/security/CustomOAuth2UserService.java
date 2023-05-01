@@ -34,7 +34,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String providerTypeCode = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
 
         // 네이버 로그인 시 id만 받아옴
-        if(providerTypeCode.equals("NAVER")) {
+        if (providerTypeCode.equals("NAVER")) {
             Map<String, Object> attributesResponse = (Map<String, Object>) oAuth2User.getAttributes().get("response");
             oauthId = attributesResponse.get("id").toString();
         }

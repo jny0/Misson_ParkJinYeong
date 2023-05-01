@@ -34,7 +34,7 @@ public class MemberService {
     // 내부 처리함수, 일반회원가입, 소셜로그인을 통한 회원가입(최초 로그인 시 한번만 발생)에서 이 함수를 사용함
     private RsData<Member> join(String providerTypeCode, String username, String password) {
         if (findByUsername(username).isPresent()) {
-            return RsData.of("F-1", "해당 아이디(%s)는 이미 사용중입니다.".formatted(username));
+            return RsData.of("F-1", "해당 계정(%s)은 이미 사용중입니다.".formatted(username));
         }
 
         // 소셜 로그인을 통한 회원가입에서는 비번이 없다.
