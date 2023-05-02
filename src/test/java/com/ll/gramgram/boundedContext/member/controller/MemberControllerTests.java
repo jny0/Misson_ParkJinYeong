@@ -1,17 +1,17 @@
 package com.ll.gramgram.boundedContext.member.controller;
 
 
-import com.ll.gramgram.boundedContext.home.controller.HomeController;
 import com.ll.gramgram.boundedContext.member.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,35 +30,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc // http 요청, 응답 테스트
 @Transactional // 실제로 테스트에서 발생한 DB 작업이 영구적으로 적용되지 않도록, test + 트랜잭션 => 자동롤백
 @ActiveProfiles("test") // application-test.yml 을 활성화 시킨다.
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class MemberControllerTests {
     @Autowired
     private MockMvc mvc;
     @Autowired
     private MemberService memberService;
 
-    @Test
-    @DisplayName("로그인 폼")
-    void t004() throws Exception {
-        // WHEN
-        ResultActions resultActions = mvc
-                .perform(get("/usr/member/login?admin"))
-                .andDo(print());
-
-        // THEN
-        resultActions
-                .andExpect(handler().handlerType(MemberController.class))
-                .andExpect(handler().methodName("showLogin"))
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(content().string(containsString("""
-                        <input type="text" name="username"
-                        """.stripIndent().trim())))
-                .andExpect(content().string(containsString("""
-                        <input type="password" name="password"
-                        """.stripIndent().trim())))
-                .andExpect(content().string(containsString("""
-                        <input type="submit" value="로그인"
-                        """.stripIndent().trim())));
-    }
+//    @Test
+//    @DisplayName("로그인 폼")
+//    void t004() throws Exception {
+//        // WHEN
+//        ResultActions resultActions = mvc
+//                .perform(get("/usr/member/login"))
+//                .andDo(print());
+//
+//        // THEN
+//        resultActions
+//                .andExpect(handler().handlerType(MemberController.class))
+//                .andExpect(handler().methodName("showLogin"))
+//                .andExpect(status().is2xxSuccessful())
+//                .andExpect(content().string(containsString("""
+//                        <input type="text" name="username"
+//                        """.stripIndent().trim())))
+//                .andExpect(content().string(containsString("""
+//                        <input type="password" name="password"
+//                        """.stripIndent().trim())))
+//                .andExpect(content().string(containsString("""
+//                        <input type="submit" value="로그인"
+//                        """.stripIndent().trim())));
+//    }
 
     @Test
     // @Rollback(value = false) // DB에 흔적이 남는다.

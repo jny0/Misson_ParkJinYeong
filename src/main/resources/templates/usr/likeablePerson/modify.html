@@ -11,11 +11,15 @@
     <script th:inline="javascript">
         const inputValue__attractiveTypeCode = /*[[ ${likeablePerson.attractiveTypeCode} ]]*/ null;
 
+
         function ModifyLikeForm__submit(form) {
             if (inputValue__attractiveTypeCode == form.attractiveTypeCode.value) {
                 toastWarning('기존 호감사유와 다른 호감사유로 변경해주세요.');
                 return;
             }
+
+            if(A)
+
             form.submit(); // 폼 발송
         }
     </script>

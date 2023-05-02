@@ -1,5 +1,6 @@
 package com.ll.gramgram.boundedContext.likeablePerson.entity;
 
+import com.ll.gramgram.base.appConfig.AppConfig;
 import com.ll.gramgram.base.baseEntity.BaseEntity;
 import com.ll.gramgram.base.rsData.RsData;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
@@ -11,6 +12,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @Entity
 @Getter
@@ -18,6 +22,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @ToString(callSuper = true)
 public class LikeablePerson extends BaseEntity {
+    private LocalDateTime modifyUnlockDate;
 
     @ManyToOne
     @ToString.Exclude
@@ -29,8 +34,19 @@ public class LikeablePerson extends BaseEntity {
     private String toInstaMemberUsername; // 혹시 몰라서 기록
     private int attractiveTypeCode; // 매력포인트(1=외모, 2=성격, 3=능력)
 
-    //캡슐화를 위해 setter대신 메서드 추가
+    public boolean isModifyUnlocked() {
+        return modifyUnlockDate.isBefore(LocalDateTime.now());
+    }
 
+    public String getModifyUnlockDateRemainStrHuman() {
+        LocalDateTime ModifyUnlockDateRemain = modifyUnlockDate
+                .minusHours(LocalDateTime.now().getHour())
+                .minusMinutes(LocalDateTime.now().getMinute())
+                .minusSeconds(LocalDateTime.now().getSecond());
+        return ModifyUnlockDateRemain.format(DateTimeFormatter.ofPattern("H시간 m분 후"));
+    }
+
+    //캡슐화를 위해 setter대신 메서드 추가
     public RsData updateAttractiveTypeCode(int attractiveTypeCode) {
 
         if (this.attractiveTypeCode == attractiveTypeCode) {
@@ -38,6 +54,7 @@ public class LikeablePerson extends BaseEntity {
         }
 
         this.attractiveTypeCode = attractiveTypeCode;
+        this.modifyUnlockDate = AppConfig.genLikeablePersonModifyUnlockDate();
 
         return RsData.of("S-1", "성공");
     }
