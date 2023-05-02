@@ -17,8 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional
@@ -166,7 +168,7 @@ public class LikeablePersonServiceTests {
         // 호감표시를 생성하면 쿨타임이 지정되기 때문에, 그래서 바로 수정이 안된다.
         // 그래서 강제로 쿨타임이 지난것으로 만든다.
         // 테스트를 위해서 억지로 값을 넣는다.
-        TestUt.setFieldValue(likeablePersonToBts, "modifyUnlockDate", LocalDateTime.now().minusSeconds(-1));
+        TestUt.setFieldValue(likeablePersonToBts, "modifyUnlockDate", LocalDateTime.now().minusSeconds(1));
 
         // 수정을 하면 쿨타임이 갱신된다.
         likeablePersonService.modifyAttractive(memberUser3, likeablePersonToBts, 1);
@@ -176,4 +178,20 @@ public class LikeablePersonServiceTests {
                 likeablePersonToBts.getModifyUnlockDate().isAfter(coolTime)
         ).isTrue();
     }
+
+    @Test
+    @DisplayName("쿨타임이 지나기 전에는 호감 사유 변경 불가")
+    void t006() throws Exception {
+        LocalDateTime coolTime = AppConfig.genLikeablePersonModifyUnlockDate();
+
+        Member memberUser3 = memberService.findByUsername("user3").orElseThrow();
+        LikeablePerson likeablePersonToBts = likeablePersonService.like(memberUser3, "bts", 3).getData();
+
+        likeablePersonService.modifyAttractive(memberUser3, likeablePersonToBts, 1);
+
+        assertThat(
+                likeablePersonToBts.getAttractiveTypeCode()
+        ).isEqualTo(3);
+    }
+
 }

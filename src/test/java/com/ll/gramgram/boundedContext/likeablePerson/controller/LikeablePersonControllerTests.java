@@ -217,7 +217,7 @@ public class LikeablePersonControllerTests {
     }
 
     @Test
-    @DisplayName("호감 상대 삭제, 삭제 후 호감 목록 페이지로 리다이렉트")
+    @DisplayName("호감 상대 취소, 취소 후 호감 목록 페이지로 리다이렉트")
     @WithUserDetails("user3")
     void t006() throws Exception {
         // WHEN
@@ -237,7 +237,7 @@ public class LikeablePersonControllerTests {
     }
 
     @Test
-    @DisplayName("호감 상대 삭제 (권한 없음, 삭제 안됨)")
+    @DisplayName("호감 상대 취소 (권한 없음, 취소 불가)")
     @WithUserDetails("user2")
     void t007() throws Exception {
         // WHEN

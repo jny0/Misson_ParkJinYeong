@@ -98,6 +98,10 @@ public class LikeablePersonService {
             return RsData.of("F-2", "취소 권한이 없습니다.");
         }
 
+        if(!likeablePerson.isModifyUnlocked()){
+            return RsData.of("F-3", "취소 가능 시간이 아닙니다.");
+        }
+
         return RsData.of("S-1", "취소 가능합니다.");
     }
 
@@ -203,6 +207,9 @@ public class LikeablePersonService {
             return RsData.of("F-2", "해당 호감 표시를 취소할 권한이 없습니다.");
         }
 
+        if(!likeablePerson.isModifyUnlocked()){
+            return RsData.of("F-3", "변경 가능 시간이 아닙니다.");
+        }
 
         return RsData.of("S-1", "호감 표시 취소가 가능합니다.");
     }

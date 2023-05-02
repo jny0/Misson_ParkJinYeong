@@ -24,7 +24,7 @@
 - [x] 호감 표시 후 modifyUnlockDate 갱신(현재날짜 + 쿨타임)
 - [x] 호감사유변경 시에 modifyUnlockDate 갱신(현재날짜 + 쿨타임)
 - [x] 쿨타임동안은 수정/삭제 불가
-- [ ] LikeablePersonService::canDelete, LikeablePersonService::canLike 에 쿨타임 체크 추가
+- [x] LikeablePersonService::canCancel, LikeablePersonService::canModify 에 쿨타임 체크 추가
 
 ###
 **[선택과제]** 알림 기능 구현
