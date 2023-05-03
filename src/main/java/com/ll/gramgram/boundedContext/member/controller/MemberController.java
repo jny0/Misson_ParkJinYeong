@@ -19,13 +19,13 @@ public class MemberController {
     @PreAuthorize("isAnonymous()")
     @GetMapping("/login") // 로그인 폼, 로그인 폼 처리는 스프링 시큐리티가 구현, 폼 처리시에 CustomUserDetailsService 가 사용됨
     public String showLogin() {
-        return "/usr/member/login";
+        return "usr/member/login";
     }
 
     @PreAuthorize("isAuthenticated()") // 로그인 해야만 접속가능
     @GetMapping("/me") // 로그인 한 나의 정보 보여주는 페이지
     public String showMe(Model model) {
 
-        return "/usr/member/me";
+        return "usr/member/me";
     }
 }

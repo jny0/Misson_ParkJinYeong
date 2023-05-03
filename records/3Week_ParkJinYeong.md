@@ -42,5 +42,15 @@
 
 1. 네이버 클라우드 플랫폼을 통한 배포
 
+**리눅스 thymeleaf 에러(Error resolving template)**
+- 인텔리제이에서는 이상 없이 html파일을 찾아서 동작하지만 리눅스환경에서 jar로 실행하면 다음과 같은 에러 발생
+```bash
+2023-05-03T14:29:57.716+09:00 ERROR 24327 --- [nio-8080-exec-1] org.thymeleaf.TemplateEngine             
+: [THYMELEAF][http-nio-8080-exec-1] Exception processing template "/usr/home/main": Error resolving template [/usr/home/main], template might not exist or might not be accessible by any of the configured Template Resolvers
+```
+검색해본 결과 Controller에서 return하여 html 파일을 불러오는 경로 문제
+  - 경로에 / 를 제거
+
+
 
 **[특이사항]**

@@ -17,7 +17,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String showMain() {
-        return "/usr/home/main";
+        return "usr/home/main";
     }
 
     @GetMapping("/usr/debugSession")

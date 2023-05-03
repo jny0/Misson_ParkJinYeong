@@ -27,7 +27,7 @@ public class LikeablePersonController {
 
     @GetMapping("/like")
     public String showLike() {
-        return "/usr/likeablePerson/like";
+        return "usr/likeablePerson/like";
     }
 
     @AllArgsConstructor
@@ -64,7 +64,7 @@ public class LikeablePersonController {
             model.addAttribute("likeablePeople", likeablePeople);
         }
 
-        return "/usr/likeablePerson/list";
+        return "usr/likeablePerson/list";
     }
 
 
@@ -95,7 +95,7 @@ public class LikeablePersonController {
 
         model.addAttribute("likeablePerson", likeablePerson);
 
-        return "/usr/likeablePerson/modify";
+        return "usr/likeablePerson/modify";
     }
 
     @AllArgsConstructor

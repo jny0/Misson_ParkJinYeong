@@ -27,7 +27,7 @@ public class InstaMemberController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/connect")
     public String showConnect() {
-        return "/usr/instaMember/connect";
+        return "usr/instaMember/connect";
     }
 
     @AllArgsConstructor
