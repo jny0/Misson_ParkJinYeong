@@ -12,7 +12,7 @@
             <div class="text-center mb-5">
                 <h1 class="text-4xl my-2 font-bold">호감 표시</h1>
             </div>
-            <div th:unless="${@rq.member.hasConnectedInstaMember}" th:include="/usr/part/needToConnect::base"></div>
+            <div th:unless="${@rq.member.hasConnectedInstaMember}" th:include="usr/part/needToConnect::base"></div>
         </div>
     </th:block>
 

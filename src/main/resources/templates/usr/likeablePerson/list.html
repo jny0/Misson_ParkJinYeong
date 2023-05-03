@@ -15,7 +15,7 @@
                 <h1 class="text-4xl my-2 font-bold">호감 목록</h1>
             </div>
             <div class="max-w-2xl w-full px-4">
-                <div th:unless="${@rq.member.hasConnectedInstaMember}" th:include="/usr/part/needToConnect::base"></div>
+                <div th:unless="${@rq.member.hasConnectedInstaMember}" th:include="usr/part/needToConnect::base"></div>
 
                 <th:block th:if="${@rq.member.hasConnectedInstaMember}">
 
