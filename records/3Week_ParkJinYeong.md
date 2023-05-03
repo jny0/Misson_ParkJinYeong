@@ -15,8 +15,13 @@
 
 ###
 **[필수과제]** 네이버 클라우드 플랫폼을 통한 배포
-
-
+- [x] 네이버 클라우드 플랫폼 포트포워딩으로 리눅스 접속용 포트 설정
+- [x] MariaDB 설치 및 gram__prod DB 생성
+- [x] git 설치 및 클론
+- [x] gradlew 를 소유자가 실행 가능한 상태로 변경, 빌드, 실행
+- [x] npm 설치 및 관리 콘솔에서 도메인 추가
+- [x] Dockerfile 생성, gram 이미지 생성, 이미지 실행
+- [x] 배포 후 리다이렉션 URL 추가
 
 ###
 **[필수과제]** 호감 삭제/표시 쿨타임 3시간
@@ -49,8 +54,14 @@
 : [THYMELEAF][http-nio-8080-exec-1] Exception processing template "/usr/home/main": Error resolving template [/usr/home/main], template might not exist or might not be accessible by any of the configured Template Resolvers
 ```
 검색해본 결과 Controller에서 return하여 html 파일을 불러오는 경로 문제
-  - 경로에 / 를 제거
+ - Controller에서 return 경로에 / 를 제거 
+   - `return "/usr/home/main";"` => `  return "usr/home/main";`
+ - html 파일에서 / 제거 
+   - `<html layout:decorate="~{/usr/layout/layout.html}">` => `<html layout:decorate="~{usr/layout/layout.html}">`
 
+위와 같이 수정한 결과 리눅스 환경에서도 잘 실행되었다.
 
 
 **[특이사항]**
+배포 과정 중에 오류를 만나 해결하는데 시간이 꽤 걸려서 선택미션을 구현하지 못한 점이 아쉽다.
+리팩토링 시간에 추가적으로 구현할 예정이다.
