@@ -40,11 +40,12 @@ public class LikeablePerson extends BaseEntity {
     }
 
     public String getModifyUnlockDateRemainStrHuman() {
-        LocalDateTime ModifyUnlockDateRemain = modifyUnlockDate
-                .minusHours(LocalDateTime.now().getHour())
-                .minusMinutes(LocalDateTime.now().getMinute())
-                .minusSeconds(LocalDateTime.now().getSecond());
-        return ModifyUnlockDateRemain.format(DateTimeFormatter.ofPattern("H시간 m분 후"));
+//        LocalDateTime ModifyUnlockDateRemain = modifyUnlockDate
+//                .minusHours(LocalDateTime.now().getHour())
+//                .minusMinutes(LocalDateTime.now().getMinute())
+//                .minusSeconds(LocalDateTime.now().getSecond());
+//        return ModifyUnlockDateRemain.format(DateTimeFormatter.ofPattern("H시간 m분 후"));
+            return Ut.time.diffFormat1Human(LocalDateTime.now(), modifyUnlockDate);
     }
 
     //캡슐화를 위해 setter대신 메서드 추가
