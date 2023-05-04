@@ -10,6 +10,7 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -18,6 +19,8 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true)
 public class Notification extends BaseEntity {
     private LocalDateTime readDate;
+
+    private LocalDateTime createDate;
     @ManyToOne
     @ToString.Exclude
     private InstaMember toInstaMember; // 호감 표시 받은 사람
@@ -31,4 +34,30 @@ public class Notification extends BaseEntity {
     private int previousAttractiveTypeCode; // 해당사항 없으면 0
     private String newGender; // 해당사항 없으면 null
     private int newAttractiveTypeCode;  // 해당사항 없으면 0
+
+    public LocalDateTime getGapBetweenCreateDateAndNow() {
+
+        LocalDateTime gapBetweenCreateDateAndNow = LocalDateTime.now()
+                .minusHours(createDate.getHour())
+                .minusMinutes(createDate.getMinute())
+                .minusSeconds(createDate.getSecond());
+
+        return gapBetweenCreateDateAndNow;
+    }
+
+    public String getNewAttractiveTypeDisplayName() {
+        return switch (newAttractiveTypeCode) {
+            case 1 -> "외모";
+            case 2 -> "성격";
+            default -> "능력";
+        };
+    }
+
+    public String getGenderDisplayName() {
+        return switch (fromInstaMember.getGender()) {
+            case "W" -> "여성";
+            default -> "남성";
+        };
+    }
+
 }

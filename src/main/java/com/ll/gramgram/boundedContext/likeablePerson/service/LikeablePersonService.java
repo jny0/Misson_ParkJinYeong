@@ -10,6 +10,8 @@ import com.ll.gramgram.boundedContext.instaMember.service.InstaMemberService;
 import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import com.ll.gramgram.boundedContext.likeablePerson.repository.LikeablePersonRepository;
 import com.ll.gramgram.boundedContext.member.entity.Member;
+import com.ll.gramgram.boundedContext.notification.entity.Notification;
+import com.ll.gramgram.boundedContext.notification.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class LikeablePersonService {
     private final LikeablePersonRepository likeablePersonRepository;
     private final InstaMemberService instaMemberService;
     private final ApplicationEventPublisher publisher;
+    private final NotificationRepository notificationRepository;
 
     @Transactional
     public RsData<LikeablePerson> like(Member actor, String username, int attractiveTypeCode) {
@@ -49,7 +52,20 @@ public class LikeablePersonService {
                 .modifyUnlockDate(AppConfig.genLikeablePersonModifyUnlockDate())
                 .build();
 
+        Notification notification = Notification
+                .builder()
+                .toInstaMember(toInstaMember)
+                .fromInstaMember(fromInstaMember)
+                .typeCode("Like")
+                .previousAttractiveTypeCode(0)
+                .newAttractiveTypeCode(attractiveTypeCode)
+                .createDate(fromInstaMember.getCreateDate())
+                .readDate(null)
+                .build();
+
+        notificationRepository.save(notification);
         likeablePersonRepository.save(likeablePerson); // 저장
+
 
         // 내가 좋아하는 상대
         fromInstaMember.likeFromLikeablePerson(likeablePerson);
