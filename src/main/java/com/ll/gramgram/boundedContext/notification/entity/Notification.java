@@ -45,6 +45,14 @@ public class Notification extends BaseEntity {
         return gapBetweenCreateDateAndNow;
     }
 
+    public String getPreviousAttractiveTypeDisplayName() {
+        return switch (previousAttractiveTypeCode) {
+            case 1 -> "외모";
+            case 2 -> "성격";
+            default -> "능력";
+        };
+    }
+
     public String getNewAttractiveTypeDisplayName() {
         return switch (newAttractiveTypeCode) {
             case 1 -> "외모";

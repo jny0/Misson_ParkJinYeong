@@ -45,7 +45,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="mt-5">
+                                    <div class="mt-5" th:if="${notification.getPreviousAttractiveTypeCode()} == 0">
                                         익명의
                                         <span class="badge badge-secondary">
                                             <span th:text="${notification.getGenderDisplayName()}"></span>
@@ -53,6 +53,20 @@
                                         <span class="badge badge-secondary ">
                                             <span th:text="${notification.getNewAttractiveTypeDisplayName()}"></span>
                                         </span> 을(를) 사유로 호감을 표시했습니다.
+                                    </div>
+
+                                    <div class="mt-5" th:if="${notification.getPreviousAttractiveTypeCode()} != 0">
+                                        익명의
+                                        <span class="badge badge-secondary">
+                                            <span th:text="${notification.getGenderDisplayName()}"></span>
+                                        </span> 이 당신에 대한 호감 사유를
+                                        <span class="badge badge-secondary ">
+                                            <span th:text="${notification.getPreviousAttractiveTypeDisplayName()()}"></span>
+                                        </span> 에서
+
+                                        <span class="badge badge-secondary ">
+                                            <span th:text="${notification.getNewAttractiveTypeDisplayName()}"></span>
+                                        </span> (으)로 변경했습니다.
                                     </div>
                                 </div>
 
