@@ -220,14 +220,14 @@ public class LikeablePersonService {
         InstaMember fromInstaMember = actor.getInstaMember();
 
         if (!Objects.equals(likeablePerson.getFromInstaMember().getId(), fromInstaMember.getId())) {
-            return RsData.of("F-2", "해당 호감 표시를 취소할 권한이 없습니다.");
+            return RsData.of("F-2", "해당 호감 사유를 변경할 권한이 없습니다.");
         }
 
         if(!likeablePerson.isModifyUnlocked()){
             return RsData.of("F-3", "변경 가능 시간이 아닙니다.");
         }
 
-        return RsData.of("S-1", "호감 표시 취소가 가능합니다.");
+        return RsData.of("S-1", "호감 표시 변경이 가능합니다.");
     }
 
     public Optional<LikeablePerson> findByFromInstaMember_usernameAndToInstaMember_username(String fromInstaMemberUsername, String toInstaMemberUsername) {
