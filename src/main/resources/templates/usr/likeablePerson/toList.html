@@ -6,7 +6,10 @@
 
 <body>
 
+
+
 <main layout:fragment="main">
+
     <div th:unless="${@rq.member.hasConnectedInstaMember}" th:include="usr/part/needToConnect::base"></div>
 
     <div class="hero-content flex-col">
@@ -28,10 +31,10 @@
                             <form class="flex flex-col gap-6">
                                 <div class="form-control">
                                     <label class="label">
-                                <span class="label-text">
-                                    <i class="fa-solid fa-person-half-dress"></i>
-                                    성별
-                                </span>
+                                        <span class="label-text">
+                                            <i class="fa-solid fa-person-half-dress"></i>
+                                            성별
+                                        </span>
                                     </label>
                                     <select name="gender" class="select select-bordered w-full"
                                             onchange="$(this).closest('form').submit();">
@@ -55,7 +58,7 @@
                                     </label>
                                     <select name="attractiveTypeCode" class="select select-bordered w-full"
                                             onchange="$(this).closest('form').submit();">
-                                        <option value="">전체</option>
+                                        <option value="0">전체</option>
                                         <option value="1">외모</option>
                                         <option value="2">성격</option>
                                         <option value="3">능력</option>
