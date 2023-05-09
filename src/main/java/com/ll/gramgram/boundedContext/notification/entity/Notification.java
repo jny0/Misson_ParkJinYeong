@@ -2,6 +2,7 @@ package com.ll.gramgram.boundedContext.notification.entity;
 
 import com.ll.gramgram.base.baseEntity.BaseEntity;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
+import com.ll.gramgram.standard.util.Ut;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
@@ -20,7 +21,6 @@ import java.time.format.DateTimeFormatter;
 public class Notification extends BaseEntity {
     private LocalDateTime readDate;
 
-    private LocalDateTime createDate;
     @ManyToOne
     @ToString.Exclude
     private InstaMember toInstaMember; // 호감 표시 받은 사람
@@ -35,14 +35,8 @@ public class Notification extends BaseEntity {
     private String newGender; // 해당사항 없으면 null
     private int newAttractiveTypeCode;  // 해당사항 없으면 0
 
-    public LocalDateTime getGapBetweenCreateDateAndNow() {
-
-        LocalDateTime gapBetweenCreateDateAndNow = LocalDateTime.now()
-                .minusHours(createDate.getHour())
-                .minusMinutes(createDate.getMinute())
-                .minusSeconds(createDate.getSecond());
-
-        return gapBetweenCreateDateAndNow;
+    public String getGapBetweenCreateDateAndNow() {
+        return Ut.time.diffFormat1Human(LocalDateTime.now(), getCreateDate());
     }
 
     public String getPreviousAttractiveTypeDisplayName() {
