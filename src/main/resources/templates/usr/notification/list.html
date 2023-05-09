@@ -22,7 +22,7 @@
                     <i class="fa-regular fa-face-laugh"></i> 최근에 받은 알림이 없습니다.
                 </div>
 
-                <div class="flex flex-col gap-4" th:if="${!#lists.isEmpty(@rq.member.instaMember.toLikeablePeople)}">
+                <div class="flex flex-col gap-4">
                     <div th:each="notification: ${notifications}">
                         <div class="card bg-base-100 shadow-xl">
                             <div class="card-body">
@@ -37,35 +37,35 @@
                                         <div class="card-body !p-3">
                                             <div class="flex justify-center gap-2">
                                         <span>
-                                            <span th:text="${#temporals.format(notification.getFromInstaMember().getCreateDate(), 'yy-MM-dd HH:mm')}"></span>
-                                            <span th:text="${#temporals.format(notification.getGapBetweenCreateDateAndNow(), ', H시간 m분 전')}"></span>
+                                            <span th:text="${#temporals.format(notification.createDate, 'yy-MM-dd HH:mm')}"></span>
+                                            <span>, <span th:text="${notification.createDateAfterStrHuman}"></span></span>
                                         </span>
-                                                <i class="fa-solid fa-fire text-red-400"></i>
+                                                <i th:if="${notification.isHot()}" class="fa-solid fa-fire text-red-400"></i>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="mt-5" th:if="${notification.getPreviousAttractiveTypeCode()} == 0">
+
+                                    <div class="mt-5" th:if="${notification.typeCode == 'LIKE'}">
                                         익명의
                                         <span class="badge badge-secondary">
-                                            <span th:text="${notification.getGenderDisplayName()}"></span>
+                                            <span th:text="${notification.newGenderDisplayName}"></span>
                                         </span> 이 당신에게
                                         <span class="badge badge-secondary ">
-                                            <span th:text="${notification.getNewAttractiveTypeDisplayName()}"></span>
+                                            <span th:text="${notification.newAttractiveTypeDisplayName}"></span>
                                         </span> 을(를) 사유로 호감을 표시했습니다.
                                     </div>
 
-                                    <div class="mt-5" th:if="${notification.getPreviousAttractiveTypeCode()} != 0">
+                                    <div class="mt-5" th:if="${notification.typeCode == 'MODIFY_ATTRACTIVE_TYPE'}">
                                         익명의
                                         <span class="badge badge-secondary">
-                                            <span th:text="${notification.getGenderDisplayName()}"></span>
+                                            <span th:text="${notification.newGenderDisplayName}"></span>
                                         </span> 이 당신에 대한 호감 사유를
                                         <span class="badge badge-secondary ">
-                                            <span th:text="${notification.getPreviousAttractiveTypeDisplayName()()}"></span>
+                                            <span th:text="${notification.previousAttractiveTypeDisplayName}"></span>
                                         </span> 에서
-
                                         <span class="badge badge-secondary ">
-                                            <span th:text="${notification.getNewAttractiveTypeDisplayName()}"></span>
+                                            <span th:text="${notification.newAttractiveTypeDisplayName}"></span>
                                         </span> (으)로 변경했습니다.
                                     </div>
                                 </div>
@@ -75,34 +75,6 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-">
-                    <div class="card bg-base-100 shadow-xl">
-                        <div class="card-body">
-                            <div class="flex flex-col gap-2">
-                                <div>
-                                    <i class="fa-regular fa-clock"></i>
-                                    알림
-                                </div>
-                                <div>
-                                    <span class="badge badge-primary">23.04.27 12:12, 1시간 전</span>
-                                </div>
-                            </div>
-                            <div class="mt-4 flex flex-col gap-2">
-                                <div>
-                                    <i class="fa-regular fa-message"></i>
-                                    내용
-                                </div>
-                                <div>
-                                    어떤 <span class="badge badge-primary">여자</span>가 당신에 대한 호감사유를 <span
-                                        class="badge badge-primary">외모</span>에서 <span
-                                        class="badge badge-primary">성격</span>으로
-                                    변경했습니다.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
     </div>

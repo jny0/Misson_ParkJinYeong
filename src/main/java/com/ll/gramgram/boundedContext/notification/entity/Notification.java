@@ -35,8 +35,21 @@ public class Notification extends BaseEntity {
     private String newGender; // 해당사항 없으면 null
     private int newAttractiveTypeCode;  // 해당사항 없으면 0
 
-    public String getGapBetweenCreateDateAndNow() {
+    public boolean isRead() {
+        return readDate != null;
+    }
+
+    public void markAsRead() {
+        readDate = LocalDateTime.now();
+    }
+
+    public String getCreateDateAfterStrHuman() {
         return Ut.time.diffFormat1Human(LocalDateTime.now(), getCreateDate());
+    }
+
+    public boolean isHot() {
+        // 만들어진지 60분이 안되었다면 hot 으로 설정
+        return getCreateDate().isAfter(LocalDateTime.now().minusMinutes(60));
     }
 
     public String getPreviousAttractiveTypeDisplayName() {
@@ -55,8 +68,8 @@ public class Notification extends BaseEntity {
         };
     }
 
-    public String getGenderDisplayName() {
-        return switch (fromInstaMember.getGender()) {
+    public String getNewGenderDisplayName() {
+        return switch (newGender) {
             case "W" -> "여성";
             default -> "남성";
         };
