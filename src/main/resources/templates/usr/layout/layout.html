@@ -14,21 +14,44 @@
                     class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                     <li th:if="${@rq.login}" class="flex justify-start">
                         <a href="/usr/member/me"><i class="fa-solid fa-user"></i> 내 정보</a>
-                        <a href="/usr/member/pop"><i class="fa-solid fa-chart-line"></i> 내 인기</a>
-                        <a href="/usr/likeablePerson/toList"><i class="fa-solid fa-heart"></i> 내가 받은 호감</a>
+                        <a href="/usr/member/pop">
+                            <th:block th:utext="#{c.iconPop}"></th:block>
+                            <span th:text="#{c.pageNamePop}"></span>
+                        </a>
+                        <a href="/usr/likeablePerson/toList">
+                            <th:block th:utext="#{c.iconLikesIReceived}"></th:block>
+                            <span th:text="#{c.pageNameLikesIReceived}"></span>
+                        </a>
                         <a class="divider"></a>
-                        <a href="/usr/instaMember/connectByApi"><i class="fa-brands fa-instagram"></i> 인스타 연결</a>
-                        <a href="/usr/likeablePerson/like"><i class="fa-solid fa-heart-circle-plus"></i> 호감 표시</a>
-                        <a href="/usr/likeablePerson/list"><i class="fa-solid fa-list-ol"></i>호감 목록</a>
-                        <a href="javascript:;" onclick="$(this).next().submit();"><i
-                                class="fa-solid fa-arrow-right-from-bracket"></i> 로그아웃</a>
+                        <a href="/usr/instaMember/connectByApi">
+                            <th:block th:utext="#{c.iconLinkingInstagram}"></th:block>
+                            <span th:text="#{c.pageNameLinkingInstagram}"></span>
+                        </a>
+                        <a href="/usr/likeablePerson/like">
+                            <th:block th:utext="#{c.iconGivingALike}"></th:block>
+                            <span th:text="#{c.pageNameGivingALike}"></span>
+                        </a>
+                        <a href="/usr/likeablePerson/list">
+                            <th:block th:utext="#{c.iconListOfLikes}"></th:block>
+                            <span th:text="#{c.pageNameListOfLikes}"></span>
+                        </a>
+                        <a href="javascript:;" onclick="$(this).next().submit();">
+                            <th:block th:utext="#{c.iconLogout}"></th:block>
+                            <span th:text="#{c.pageNameLogout}"></span>
+                        </a>
                         <form class="!hidden" th:action="|/usr/member/logout|" method="POST"></form>
                     </li>
-                    <li th:if="${@rq.logout}">
-                        <a href="/usr/member/login"><i class="fa-solid fa-arrow-right-to-bracket"></i> 시작하기</a>
+                        <li th:if="${@rq.logout}">
+                            <a href="/usr/member/login">
+                                <th:block th:utext="#{c.iconStart}"></th:block>
+                                <span th:text="#{c.pageNameStart}"></span>
+                            </a>
+                        </li>
                     </li>
-                    </li>
-                    <li th:if="${@rq.admin}"><a href="/adm/home/main"><i class="fa-solid fa-gauge"></i> 관리자 페이지</a>
+                    <li th:if="${@rq.admin}"><a href="/adm/home/main">
+                        <th:block th:utext="#{c.iconAdmin}"></th:block>
+                        <span th:text="#{c.pageNameAdmin}"></span>
+                    </a>
                 </ul>
             </div>
         </div>
@@ -40,12 +63,13 @@
         </div>
         <div class="navbar-end">
             <a href="/usr/member/pop" class="btn btn-ghost gap-1" th:if="${@rq.login}">
-                <i class="fa-solid fa-chart-line"></i>
+                <th:block th:utext="#{c.iconPop}"></th:block>
             </a>
             <a href="/usr/notification/list" class="btn btn-ghost btn-circle" th:if="${@rq.login}">
                 <div class="indicator">
                     <i class="fa-regular fa-bell"></i>
-                    <span data-test="hasUnreadNotifications" th:if="${@rq.hasUnreadNotifications}" class="badge badge-xs badge-secondary indicator-item"></span>
+                    <span data-test="hasUnreadNotifications" th:if="${@rq.hasUnreadNotifications}"
+                          class="badge badge-xs badge-secondary indicator-item"></span>
                 </div>
             </a>
         </div>
