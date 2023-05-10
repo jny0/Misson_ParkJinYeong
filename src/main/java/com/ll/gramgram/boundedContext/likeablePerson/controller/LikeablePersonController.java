@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/usr/likeablePerson")
@@ -120,42 +121,32 @@ public class LikeablePersonController {
         return rq.redirectWithMsg("/usr/likeablePerson/list", rsData);
     }
 
-    @AllArgsConstructor
-    @Getter
-    public static class FilterForm {
+//    @AllArgsConstructor
+//    @Getter
+//    public static class FilterForm {
+//
+//        private final String gender;
+//        @Min(1)
+//        @Max(3)
+//        private final int attractiveTypeCode;
+//    }
 
-        private final String gender;
-        @Min(1)
-        @Max(3)
-        private final int attractiveTypeCode;
-    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/toList")
-    public String showToList(Model model, @RequestParam(required = false) String gender) {
+    public String showToList(Model model,
+                             @RequestParam(value = "gender", required = false) String gender,
+                             @RequestParam(value = "attractiveTypeCode", defaultValue = "0") int attractiveTypeCode) {
+
         InstaMember instaMember = rq.getMember().getInstaMember();
 
-        // 인스타인증을 했는지 체크
         if (instaMember != null) {
-            // 해당 인스타회원이 좋아하는 사람들 목록
             List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
-            List<LikeablePerson> filteredItems;
-
-            if (gender == null) { // gender가 선택되지 않았을 때
-                filteredItems = likeablePeople;
-            } else {
-                filteredItems = new ArrayList<>();
-                for (LikeablePerson likeablePerson : likeablePeople) {
-                    if (likeablePerson.getFromInstaMember().getGender().equals(gender)) {
-                        filteredItems.add(likeablePerson);
-                    }
-                }
-            }
+            List<LikeablePerson> filteredItems = likeablePersonService.filterLikeablePeople(likeablePeople, gender, attractiveTypeCode);
 
             model.addAttribute("likeablePeople", filteredItems);
         }
 
         return "usr/likeablePerson/toList";
     }
-
 }

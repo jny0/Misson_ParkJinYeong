@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -218,4 +219,23 @@ public class LikeablePersonService {
         return likeablePersonRepository.findByFromInstaMember_usernameAndToInstaMember_username(fromInstaMemberUsername, toInstaMemberUsername);
     }
 
+    public List<LikeablePerson> filterLikeablePeople(List<LikeablePerson> likeablePeople, String gender, int attractiveTypeCode) {
+
+        List<LikeablePerson> filteredItems = likeablePeople;
+
+
+        if (gender != null) {
+            filteredItems = filteredItems.stream()
+                    .filter(item -> item.getFromInstaMember().getGender().equals(gender))
+                    .collect(Collectors.toList());
+        }
+
+        if (attractiveTypeCode != 0) {
+            filteredItems = filteredItems.stream()
+                    .filter(item -> item.getAttractiveTypeCode() == attractiveTypeCode)
+                    .collect(Collectors.toList());
+        }
+
+        return filteredItems;
+    }
 }
