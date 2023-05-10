@@ -224,7 +224,7 @@ public class LikeablePersonService {
 
         List<LikeablePerson> filteredItems = likeablePeople;
 
-        if (gender != null) {
+        if (gender != null && !gender.isEmpty()) {
             filteredItems = filteredItems.stream()
                     .filter(item -> item.getFromInstaMember().getGender().equals(gender))
                     .collect(Collectors.toList());
@@ -253,13 +253,17 @@ public class LikeablePersonService {
                         .sorted(Comparator.comparingInt(item -> item.getFromInstaMember().getToLikeablePeople().size()))
                         .collect(Collectors.toList());
                 break;
-            case 5: // 성별순 (여성, 남성)
+            case 5: // 성별순 (여성, 남성) + 최신순
                 filteredItems = filteredItems.stream()
+                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate))
                         .sorted(Comparator.comparing((LikeablePerson item) -> item.getFromInstaMember().getGender()).reversed())
                         .collect(Collectors.toList());
                 break;
-            case 6: // 호감 사유 순 (외모, 성격, 능력)
-                filteredItems.sort(Comparator.comparing(LikeablePerson::getAttractiveTypeCode));
+            case 6: // 호감 사유 순 (외모, 성격, 능력) + 최신순
+                filteredItems = filteredItems.stream()
+                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate))
+                        .sorted(Comparator.comparing(LikeablePerson::getAttractiveTypeCode))
+                        .collect(Collectors.toList());
                 break;
 
         }
