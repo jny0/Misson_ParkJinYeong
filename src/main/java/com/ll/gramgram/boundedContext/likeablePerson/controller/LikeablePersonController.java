@@ -136,13 +136,14 @@ public class LikeablePersonController {
     @GetMapping("/toList")
     public String showToList(Model model,
                              @RequestParam(value = "gender", required = false) String gender,
-                             @RequestParam(value = "attractiveTypeCode", defaultValue = "0") int attractiveTypeCode) {
+                             @RequestParam(value = "attractiveTypeCode", defaultValue = "0") int attractiveTypeCode,
+                             @RequestParam(value = "sortCode", defaultValue = "1") int sortCode) {
 
         InstaMember instaMember = rq.getMember().getInstaMember();
 
         if (instaMember != null) {
             List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
-            List<LikeablePerson> filteredItems = likeablePersonService.filterLikeablePeople(likeablePeople, gender, attractiveTypeCode);
+            List<LikeablePerson> filteredItems = likeablePersonService.filterList(likeablePeople, gender, attractiveTypeCode, sortCode);
 
             model.addAttribute("likeablePeople", filteredItems);
         }

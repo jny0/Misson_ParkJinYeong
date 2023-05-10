@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -219,10 +220,9 @@ public class LikeablePersonService {
         return likeablePersonRepository.findByFromInstaMember_usernameAndToInstaMember_username(fromInstaMemberUsername, toInstaMemberUsername);
     }
 
-    public List<LikeablePerson> filterLikeablePeople(List<LikeablePerson> likeablePeople, String gender, int attractiveTypeCode) {
+    public List<LikeablePerson> filterList(List<LikeablePerson> likeablePeople, String gender, int attractiveTypeCode, int sortCode) {
 
         List<LikeablePerson> filteredItems = likeablePeople;
-
 
         if (gender != null) {
             filteredItems = filteredItems.stream()
@@ -234,6 +234,34 @@ public class LikeablePersonService {
             filteredItems = filteredItems.stream()
                     .filter(item -> item.getAttractiveTypeCode() == attractiveTypeCode)
                     .collect(Collectors.toList());
+        }
+
+        switch (sortCode) {
+            case 1: // 최신 순
+                filteredItems.sort(Comparator.comparing(LikeablePerson::getCreateDate));
+                break;
+            case 2: // 날짜 순(오래된 순)
+                filteredItems.sort(Comparator.comparing(LikeablePerson::getCreateDate).reversed());
+                break;
+            case 3: // 인기 많은 순
+                filteredItems = filteredItems.stream()
+                        .sorted(Comparator.comparingInt((LikeablePerson item) -> item.getFromInstaMember().getToLikeablePeople().size()).reversed())
+                        .collect(Collectors.toList());
+                break;
+            case 4: // 인기 적은 순
+                filteredItems = filteredItems.stream()
+                        .sorted(Comparator.comparingInt(item -> item.getFromInstaMember().getToLikeablePeople().size()))
+                        .collect(Collectors.toList());
+                break;
+            case 5: // 성별순 (여성, 남성)
+                filteredItems = filteredItems.stream()
+                        .sorted(Comparator.comparing((LikeablePerson item) -> item.getFromInstaMember().getGender()).reversed())
+                        .collect(Collectors.toList());
+                break;
+            case 6: // 호감 사유 순 (외모, 성격, 능력)
+                filteredItems.sort(Comparator.comparing(LikeablePerson::getAttractiveTypeCode));
+                break;
+
         }
 
         return filteredItems;
