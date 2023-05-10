@@ -15,9 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/usr/likeablePerson")
@@ -120,17 +118,6 @@ public class LikeablePersonController {
 
         return rq.redirectWithMsg("/usr/likeablePerson/list", rsData);
     }
-
-//    @AllArgsConstructor
-//    @Getter
-//    public static class FilterForm {
-//
-//        private final String gender;
-//        @Min(1)
-//        @Max(3)
-//        private final int attractiveTypeCode;
-//    }
-
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/toList")

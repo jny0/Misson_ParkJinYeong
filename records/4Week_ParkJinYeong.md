@@ -62,7 +62,7 @@
   - 인기 적은 순 : `likablePerson.getFromInstaMember().getToLikeablePeople().size()` 를 기준으로 내림차순
   - 성별 순 + 최신 순 : 최신순으로 먼저 정렬 후 `likablePerson.getFromInstaMember().getGender` 를 기준으로 내림차순
   - 호감 사유 순 + 최신 순 : 최신순으로 먼저 정렬 후 `LikeablePerson::getAttractiveTypeCode` 를 기준으로 오름차순
-
+- 필터링과 정렬에 대한 테스트 케이스 추가
 
 ❓성별을 선택하지 않고 다른 기준만 선택했을 때 필터링되지 않는 오류 
 - 성별 기준에서 "전체"를 선택하면 , value 값이 빈 문자열("")로 전달되도록 설정되어있기 때문
@@ -71,3 +71,4 @@
 
 ###
 **[특이사항]**
+- 젠킨스를 사용한 자동배포는 구현하지 못했다.

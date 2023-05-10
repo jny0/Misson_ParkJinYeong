@@ -15,7 +15,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -67,6 +66,11 @@ public class LikeablePersonService {
     public List<LikeablePerson> findByFromInstaMemberId(Long fromInstaMemberId) {
         return likeablePersonRepository.findByFromInstaMemberId(fromInstaMemberId);
     }
+
+    public List<LikeablePerson> findByToInstaMemberUsername(String username) {
+        return likeablePersonRepository.findByToInstaMemberUsername(username);
+    }
+
 
 
     public Optional<LikeablePerson> findById(Long Id) {

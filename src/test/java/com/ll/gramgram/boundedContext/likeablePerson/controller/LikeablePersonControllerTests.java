@@ -19,11 +19,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -327,5 +329,25 @@ public class LikeablePersonControllerTests {
 //
 //        assertThat(newAttractiveTypeCode).isEqualTo(3);
 //    }
+
+    @Test
+    @DisplayName("필터링 : 성별-여성")
+    @WithUserDetails("user4")
+    void t011() throws Exception {
+        ResultActions resultActions = mvc
+                .perform(get("/usr/likeablePerson/toList")
+                        .with(csrf()) // CSRF 키 생성
+                        .param("gender", "W")
+                        .param("attractiveTypeCode", "0")
+                        .param("sortCode", "1")
+                )
+                .andDo(print());
+
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("showToList"))
+                .andExpect(status().is2xxSuccessful());
+    }
+    // TODO : 결과 검증 로직 구현 필요
 
 }

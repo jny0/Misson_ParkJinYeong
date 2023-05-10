@@ -64,10 +64,6 @@ public class NotProd {
                 // 원활한 테스트와 개발을 위해서 자동으로 만들어지는 호감이 삭제, 수정이 가능하도록 쿨타임해제
                 LikeablePerson likeablePersonToinstaUser4From3 = likeablePersonService.like(memberUser3, "insta_user4", 1).getData();
                 Ut.reflection.setFieldValue(likeablePersonToinstaUser4From3, "modifyUnlockDate", LocalDateTime.now().minusSeconds(1));
-                LikeablePerson likeablePersonToinstaUser4From2 = likeablePersonService.like(memberUser2, "insta_user4", 2).getData();
-                LikeablePerson likeablePersonToinstaUser4From5 = likeablePersonService.like(memberUser5, "insta_user4", 3).getData();
-                LikeablePerson likeablePersonToinstaUser4From100 = likeablePersonService.like(memberUser100, "insta_user4", 1).getData();
-
 
                 LikeablePerson likeablePersonToinstaUser100 = likeablePersonService.like(memberUser3, "insta_user100", 2).getData();
                 Ut.reflection.setFieldValue(likeablePersonToinstaUser100, "modifyUnlockDate", LocalDateTime.now().minusSeconds(1));
@@ -75,6 +71,10 @@ public class NotProd {
                 LikeablePerson likeablePersonToinstaUser3 = likeablePersonService.like(memberUser4, "insta_user3", 1).getData();
                 Ut.reflection.setFieldValue(likeablePersonToinstaUser3, "modifyUnlockDate", LocalDateTime.now().minusSeconds(1));
 
+                // 필터링 테스트용
+                LikeablePerson likeablePersonToinstaUser4From2 = likeablePersonService.like(memberUser2, "insta_user4", 2).getData();
+                LikeablePerson likeablePersonToinstaUser4From5 = likeablePersonService.like(memberUser5, "insta_user4", 3).getData();
+                LikeablePerson likeablePersonToinstaUser4From100 = likeablePersonService.like(memberUser100, "insta_user4", 1).getData();
             }
         };
     }
