@@ -227,52 +227,48 @@ public class LikeablePersonService {
 
     public List<LikeablePerson> filterList(List<LikeablePerson> likeablePeople, String gender, int attractiveTypeCode, int sortCode) {
 
-        List<LikeablePerson> filteredItems = likeablePeople;
+        Stream<LikeablePerson> filteredItems = likeablePeople.stream();
 
         if (gender != null && !gender.isEmpty()) {
-            filteredItems = filteredItems.stream()
-                    .filter(item -> item.getFromInstaMember().getGender().equals(gender))
-                    .collect(Collectors.toList());
+            filteredItems = filteredItems
+                    .filter(item -> item.getFromInstaMember().getGender().equals(gender));
         }
 
         if (attractiveTypeCode != 0) {
-            filteredItems = filteredItems.stream()
-                    .filter(item -> item.getAttractiveTypeCode() == attractiveTypeCode)
-                    .collect(Collectors.toList());
+            filteredItems = filteredItems
+                    .filter(item -> item.getAttractiveTypeCode() == attractiveTypeCode);
         }
 
         switch (sortCode) {
             case 1: // 최신 순
-                filteredItems.sort(Comparator.comparing(LikeablePerson::getCreateDate).reversed());
+                filteredItems = filteredItems
+                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate).reversed());
                 break;
             case 2: // 날짜 순(오래된 순)
-                filteredItems.sort(Comparator.comparing(LikeablePerson::getCreateDate));
+                filteredItems = filteredItems
+                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate));
                 break;
             case 3: // 인기 많은 순
-                filteredItems = filteredItems.stream()
-                        .sorted(Comparator.comparingInt((LikeablePerson item) -> item.getFromInstaMember().getToLikeablePeople().size()).reversed())
-                        .collect(Collectors.toList());
+                filteredItems = filteredItems
+                        .sorted(Comparator.comparingInt((LikeablePerson item) -> item.getFromInstaMember().getToLikeablePeople().size()).reversed());
                 break;
             case 4: // 인기 적은 순
-                filteredItems = filteredItems.stream()
-                        .sorted(Comparator.comparingInt(item -> item.getFromInstaMember().getToLikeablePeople().size()))
-                        .collect(Collectors.toList());
+                filteredItems = filteredItems
+                        .sorted(Comparator.comparingInt(item -> item.getFromInstaMember().getToLikeablePeople().size()));
                 break;
             case 5: // 성별순 (여성, 남성) + 최신순
-                filteredItems = filteredItems.stream()
-                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate).reversed())
-                        .sorted(Comparator.comparing((LikeablePerson item) -> item.getFromInstaMember().getGender()).reversed())
-                        .collect(Collectors.toList());
+                filteredItems = filteredItems
+                        .sorted(Comparator.comparing((LikeablePerson item) -> item.getFromInstaMember().getGender()).reversed()
+                                .thenComparing(Comparator.comparing(LikeablePerson::getCreateDate)).reversed());
                 break;
             case 6: // 호감 사유 순 (외모, 성격, 능력) + 최신순
-                filteredItems = filteredItems.stream()
-                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate).reversed())
-                        .sorted(Comparator.comparing(LikeablePerson::getAttractiveTypeCode))
-                        .collect(Collectors.toList());
+                filteredItems = filteredItems
+                        .sorted(Comparator.comparing(LikeablePerson::getAttractiveTypeCode)
+                                .thenComparing(Comparator.comparing(LikeablePerson::getCreateDate)).reversed());
                 break;
 
         }
 
-        return filteredItems;
+        return filteredItems.toList();
     }
 }
