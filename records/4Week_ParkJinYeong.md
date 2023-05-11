@@ -56,8 +56,8 @@
 - `Controller`에서 인스타 인증되어있는지 확인하고 `Service`의 `filterList`에서 필터링 구현
 - `stream.filter()`를 사용하여 성별과 호감사유 필터링
 - `stream.sorted()`를 사용하여 정렬
-  - 최신순 (기본) : `LikeablePerson::getCreateDate`를 기준으로 오름차순
-  - 날짜순 (오래된 순) : `LikeablePerson::getCreateDate`를 기준으로 내림차순
+  - 최신순 (기본) : `LikeablePerson::getCreateDate`를 기준으로 내림차순
+  - 날짜순 (오래된 순) : `LikeablePerson::getCreateDate`를 기준으로 오름차순
   - 인기 많은 순 : `likablePerson.getFromInstaMember().getToLikeablePeople().size()` 를 기준으로 내림차순
   - 인기 적은 순 : `likablePerson.getFromInstaMember().getToLikeablePeople().size()` 를 기준으로 내림차순
   - 성별 순 + 최신 순 : 최신순으로 먼저 정렬 후 `likablePerson.getFromInstaMember().getGender` 를 기준으로 내림차순

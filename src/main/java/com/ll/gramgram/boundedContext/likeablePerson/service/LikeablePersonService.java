@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -242,10 +243,10 @@ public class LikeablePersonService {
 
         switch (sortCode) {
             case 1: // 최신 순
-                filteredItems.sort(Comparator.comparing(LikeablePerson::getCreateDate));
+                filteredItems.sort(Comparator.comparing(LikeablePerson::getCreateDate).reversed());
                 break;
             case 2: // 날짜 순(오래된 순)
-                filteredItems.sort(Comparator.comparing(LikeablePerson::getCreateDate).reversed());
+                filteredItems.sort(Comparator.comparing(LikeablePerson::getCreateDate));
                 break;
             case 3: // 인기 많은 순
                 filteredItems = filteredItems.stream()
@@ -259,13 +260,13 @@ public class LikeablePersonService {
                 break;
             case 5: // 성별순 (여성, 남성) + 최신순
                 filteredItems = filteredItems.stream()
-                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate))
+                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate).reversed())
                         .sorted(Comparator.comparing((LikeablePerson item) -> item.getFromInstaMember().getGender()).reversed())
                         .collect(Collectors.toList());
                 break;
             case 6: // 호감 사유 순 (외모, 성격, 능력) + 최신순
                 filteredItems = filteredItems.stream()
-                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate))
+                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate).reversed())
                         .sorted(Comparator.comparing(LikeablePerson::getAttractiveTypeCode))
                         .collect(Collectors.toList());
                 break;
