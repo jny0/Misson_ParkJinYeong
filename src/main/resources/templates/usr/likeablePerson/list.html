@@ -53,7 +53,7 @@
                                             <td>호감 사유</td>
                                             <td>
                                                 <div th:data-test="|toInstaMember_attractiveTypeDisplayName=${likeablePerson.attractiveTypeDisplayName}|"
-                                                      th:utext="${likeablePerson.attractiveTypeDisplayNameWithIcon}"></div>
+                                                     th:utext="${likeablePerson.attractiveTypeDisplayNameWithIcon}"></div>
                                             </td>
                                         </tr>
                                     </table>
@@ -69,7 +69,7 @@
 
                                     <div class="card-actions justify-center mt-5">
                                         <a th:href="@{|modify/${likeablePerson.id}|}" class="btn btn-sm btn-outline"
-                                            th:classappend="${!likeablePerson.modifyUnlocked ? 'btn-disabled' : ''}"
+                                           th:classappend="${!likeablePerson.modifyUnlocked ? 'btn-disabled' : ''}"
                                         >
                                             호감사유 변경</a>
                                         <a class="btn btn-sm btn-outline"
@@ -82,11 +82,12 @@
                                             <input type="hidden" name="_method" value="delete">
                                         </form>
                                     </div>
-                                    <div th:unless="${likeablePerson.modifyUnlocked}" class="text-center text-gray-500 text-sm mt-4">
+                                    <div th:unless="${likeablePerson.modifyUnlocked}"
+                                         class="text-center text-gray-500 text-sm mt-4">
                                         <span class="text-red-400">호감사유 변경</span>과 <span
                                             class="text-red-400">호감취소</span>는 </br>
                                         <span class="badge badge-accent"
-                                            th:text="${likeablePerson.modifyUnlockDateRemainStrHuman}"></span>에 가능합니다.
+                                              th:text="${likeablePerson.modifyUnlockDateRemainStrHuman}"></span>에 가능합니다.
                                     </div>
                                 </div>
                             </div>

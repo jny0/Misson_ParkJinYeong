@@ -6,16 +6,14 @@
 
 <body>
 
-
-
 <main layout:fragment="main">
-
-    <div th:unless="${@rq.member.hasConnectedInstaMember}" th:include="usr/part/needToConnect::base"></div>
 
     <div class="hero-content flex-col">
         <div class="text-center my-5">
             <h1 class="text-4xl my-2 font-bold"> 내가 받은 호감</h1>
         </div>
+
+        <div th:unless="${@rq.member.hasConnectedInstaMember}" th:include="usr/part/needToConnect::base"></div>
 
         <th:block th:if="${@rq.member.hasConnectedInstaMember}">
             <div class="max-w-md w-full px-4">

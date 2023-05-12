@@ -19,7 +19,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -73,7 +72,6 @@ public class LikeablePersonService {
     }
 
 
-
     public Optional<LikeablePerson> findById(Long Id) {
         return likeablePersonRepository.findById(Id);
     }
@@ -105,7 +103,7 @@ public class LikeablePersonService {
             return RsData.of("F-2", "취소 권한이 없습니다.");
         }
 
-        if(!likeablePerson.isModifyUnlocked()){
+        if (!likeablePerson.isModifyUnlocked()) {
             return RsData.of("F-3", "취소 가능 시간이 아닙니다.");
         }
 
@@ -177,7 +175,7 @@ public class LikeablePersonService {
     }
 
     @Transactional
-    public RsData<LikeablePerson> modifyAttractive(Member actor, String username, int attractiveTypeCode)  {
+    public RsData<LikeablePerson> modifyAttractive(Member actor, String username, int attractiveTypeCode) {
 
         List<LikeablePerson> fromLikeablePeople = actor.getInstaMember().getFromLikeablePeople();
 
@@ -214,7 +212,7 @@ public class LikeablePersonService {
             return RsData.of("F-2", "해당 호감 사유를 변경할 권한이 없습니다.");
         }
 
-        if(!likeablePerson.isModifyUnlocked()){
+        if (!likeablePerson.isModifyUnlocked()) {
             return RsData.of("F-3", "변경 가능 시간이 아닙니다.");
         }
 

@@ -21,8 +21,8 @@ public class NotificationController {
 
     @GetMapping("/list")
     @PreAuthorize("isAuthenticated()")
-    public String showList(Model model){
-        if(!rq.getMember().hasConnectedInstaMember()){
+    public String showList(Model model) {
+        if (!rq.getMember().hasConnectedInstaMember()) {
             return rq.redirectWithMsg("/usr/instaMember/connect", "먼저 본인의 인스타그램 계정을 등록해주시요.");
         }
 
@@ -34,7 +34,6 @@ public class NotificationController {
 
         return "usr/notification/list";
     }
-
 
 
 }

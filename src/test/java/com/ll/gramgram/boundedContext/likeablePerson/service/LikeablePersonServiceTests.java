@@ -197,7 +197,7 @@ public class LikeablePersonServiceTests {
     @DisplayName("정렬 : 최신 순")
     void t010() throws Exception {
         List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
-        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,1);
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0, 1);
 
         assertThat(filteredList)
                 .isSortedAccordingTo(Comparator.comparing(LikeablePerson::getCreateDate, Comparator.reverseOrder()));
@@ -207,7 +207,7 @@ public class LikeablePersonServiceTests {
     @DisplayName("정렬 : 날짜 순")
     void t011() throws Exception {
         List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
-        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,2);
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0, 2);
 
         assertThat(filteredList)
                 .isSortedAccordingTo(Comparator.comparing(LikeablePerson::getCreateDate));
@@ -217,7 +217,7 @@ public class LikeablePersonServiceTests {
     @DisplayName("정렬 : 인기 많은 순")
     void t012() throws Exception {
         List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
-        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,3);
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0, 3);
 
         assertThat(filteredList)
                 .isSortedAccordingTo(Comparator.comparingInt((LikeablePerson item) -> item.getFromInstaMember().getToLikeablePeople().size()).reversed());
@@ -227,7 +227,7 @@ public class LikeablePersonServiceTests {
     @DisplayName("정렬 : 인기 적은 순")
     void t013() throws Exception {
         List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
-        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,4);
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0, 4);
 
         assertThat(filteredList)
                 .isSortedAccordingTo(Comparator.comparingInt((LikeablePerson item) -> item.getFromInstaMember().getToLikeablePeople().size()));
@@ -237,7 +237,7 @@ public class LikeablePersonServiceTests {
     @DisplayName("정렬 : 성별 순")
     void t014() throws Exception {
         List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
-        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,5);
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0, 5);
 
         assertThat(filteredList)
                 .isSortedAccordingTo(Comparator.comparing((LikeablePerson item) -> item.getFromInstaMember().getGender()).reversed()
@@ -248,7 +248,7 @@ public class LikeablePersonServiceTests {
     @DisplayName("정렬 : 호감 사유 순")
     void t015() throws Exception {
         List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
-        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,6);
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0, 6);
 
         assertThat(filteredList)
                 .isSortedAccordingTo(Comparator.comparing(LikeablePerson::getAttractiveTypeCode)
