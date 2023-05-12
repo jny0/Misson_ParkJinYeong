@@ -227,7 +227,7 @@ public class LikeablePersonService {
 
         Stream<LikeablePerson> filteredItems = likeablePeople.stream();
 
-        if (gender != null && !gender.isEmpty()) {
+        if (!gender.isEmpty()) {
             filteredItems = filteredItems
                     .filter(item -> item.getFromInstaMember().getGender().equals(gender));
         }
