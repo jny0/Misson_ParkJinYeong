@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -193,47 +194,65 @@ public class LikeablePersonServiceTests {
     }
 
     @Test
-    @DisplayName("필터링 : 성별-여성")
-    void t007() throws Exception {
-        List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
-        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "W", 0, 1);
-
-        assertThat(filteredList.size()).isEqualTo(2);
-        assertThat(filteredList.get(0).getFromInstaMember().getGender()).isEqualTo("W");
-        assertThat(filteredList.get(0).getAttractiveTypeCode()).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("필터링 : 호감사유-외모")
-    void t008() throws Exception {
-        List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
-        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 1, 1);
-
-        assertThat(filteredList.size()).isEqualTo(2);
-        assertThat(filteredList.get(0).getAttractiveTypeCode()).isEqualTo(1);
-        assertThat(filteredList.get(1).getAttractiveTypeCode()).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("필터링 : 성별-남성, 호감사유-외모")
-    void t009() throws Exception {
-        List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
-        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "M", 1, 1);
-
-        assertThat(filteredList.size()).isEqualTo(1);
-        assertThat(filteredList.get(0).getFromInstaMember().getGender()).isEqualTo("M");
-        assertThat(filteredList.get(0).getAttractiveTypeCode()).isEqualTo(1);
-    }
-
-
-    @Test
-    @DisplayName("정렬 : 오래된 순")
+    @DisplayName("정렬 : 최신 순")
     void t010() throws Exception {
+        List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,1);
+
+        assertThat(filteredList)
+                .isSortedAccordingTo(Comparator.comparing(LikeablePerson::getCreateDate, Comparator.reverseOrder()));
+    }
+
+    @Test
+    @DisplayName("정렬 : 날짜 순")
+    void t011() throws Exception {
+        List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,2);
+
+        assertThat(filteredList)
+                .isSortedAccordingTo(Comparator.comparing(LikeablePerson::getCreateDate));
+    }
+
+    @Test
+    @DisplayName("정렬 : 인기 많은 순")
+    void t012() throws Exception {
         List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
         List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,3);
 
-        assertThat(filteredList.size()).isEqualTo(4);
-        assertThat(filteredList.get(0).getFromInstaMember().getUsername()).isEqualTo("insta_user3");
+        assertThat(filteredList)
+                .isSortedAccordingTo(Comparator.comparingInt((LikeablePerson item) -> item.getFromInstaMember().getToLikeablePeople().size()).reversed());
+    }
+
+    @Test
+    @DisplayName("정렬 : 인기 적은 순")
+    void t013() throws Exception {
+        List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,4);
+
+        assertThat(filteredList)
+                .isSortedAccordingTo(Comparator.comparingInt((LikeablePerson item) -> item.getFromInstaMember().getToLikeablePeople().size()));
+    }
+
+    @Test
+    @DisplayName("정렬 : 성별 순")
+    void t014() throws Exception {
+        List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,5);
+
+        assertThat(filteredList)
+                .isSortedAccordingTo(Comparator.comparing((LikeablePerson item) -> item.getFromInstaMember().getGender()).reversed()
+                        .thenComparing(Comparator.comparing(LikeablePerson::getCreateDate)).reversed());
+    }
+
+    @Test
+    @DisplayName("정렬 : 호감 사유 순")
+    void t015() throws Exception {
+        List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMemberUsername("insta_user4");
+        List<LikeablePerson> filteredList = likeablePersonService.filterList(likeablePeople, "", 0,6);
+
+        assertThat(filteredList)
+                .isSortedAccordingTo(Comparator.comparing(LikeablePerson::getAttractiveTypeCode)
+                        .thenComparing(Comparator.comparing(LikeablePerson::getCreateDate)).reversed());
     }
 
 }
