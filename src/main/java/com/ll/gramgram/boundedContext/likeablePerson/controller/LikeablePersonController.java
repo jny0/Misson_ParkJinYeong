@@ -127,11 +127,9 @@ public class LikeablePersonController {
         InstaMember instaMember = rq.getMember().getInstaMember();
 
         if (instaMember != null) {
-            List<LikeablePerson> likeablePeople = instaMember.getToLikeablePeople();
-            List<LikeablePerson> filteredItems = likeablePersonService.filterList(likeablePeople,
-                    toListForm.gender, toListForm.attractiveTypeCode, toListForm.sortCode);
+            List<LikeablePerson> likeablePeople = likeablePersonService.findByToInstaMember(instaMember, toListForm.gender, toListForm.attractiveTypeCode, toListForm.sortCode);
 
-            model.addAttribute("likeablePeople", filteredItems);
+            model.addAttribute("likeablePeople", likeablePeople);
         }
 
         return "usr/likeablePerson/toList";
@@ -139,10 +137,8 @@ public class LikeablePersonController {
 
     @Setter
     public static class ToListForm {
-        private String gender ="";
+        private String gender = "";
         private int attractiveTypeCode = 0;
         private int sortCode = 1;
     }
-
-
 }

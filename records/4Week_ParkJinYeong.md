@@ -59,7 +59,7 @@
 
 **[접근 방법]**
 
-1. toList에서 성별 및 호감사유 필터링
+1. toList에서 성별 및 호감사유 필터링 (스트림)
 
 - `@RequestParam` 어노테이션을 사용하여 `gender`, `attractiveTypeCode`,`sortCode` 파라미터를 받아옴
 - `Controller`에서 인스타 인증되어있는지 확인하고 `Service`의 `filterList`에서 필터링 구현
@@ -77,6 +77,10 @@
 
 - 성별 기준에서 "전체"를 선택하면 , value 값이 빈 문자열("")로 전달되도록 설정되어있기 때문
 - `!gender.isEmpty()` 조건을 추가하여 필터링이 정상적으로 작동되도록 수정
+
+
+2. 이후 리팩토링 과정에서 **QueryDSL 도입**하여 정렬과 필터링 수행
+- 최신순 및 날짜순 정렬 시 `LikeablePerson::getId`를 기준으로 함 (`createDate`보다 빠름)
 
 ###
 

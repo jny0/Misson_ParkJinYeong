@@ -9,17 +9,17 @@ import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
 import com.ll.gramgram.boundedContext.instaMember.service.InstaMemberService;
 import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import com.ll.gramgram.boundedContext.likeablePerson.repository.LikeablePersonRepository;
+import com.ll.gramgram.boundedContext.likeablePerson.repository.LikeablePersonRepositoryCustom;
 import com.ll.gramgram.boundedContext.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -68,7 +68,7 @@ public class LikeablePersonService {
     }
 
     public List<LikeablePerson> findByToInstaMemberUsername(String username) {
-        return likeablePersonRepository.findByToInstaMemberUsername(username);
+        return likeablePersonRepository.findByToInstaMember_username(username);
     }
 
 
@@ -223,50 +223,12 @@ public class LikeablePersonService {
         return likeablePersonRepository.findByFromInstaMember_usernameAndToInstaMember_username(fromInstaMemberUsername, toInstaMemberUsername);
     }
 
-    public List<LikeablePerson> filterList(List<LikeablePerson> likeablePeople, String gender, int attractiveTypeCode, int sortCode) {
-
-        Stream<LikeablePerson> filteredItems = likeablePeople.stream();
-
-        if (!gender.isEmpty()) {
-            filteredItems = filteredItems
-                    .filter(item -> item.getFromInstaMember().getGender().equals(gender));
-        }
-
-        if (attractiveTypeCode != 0) {
-            filteredItems = filteredItems
-                    .filter(item -> item.getAttractiveTypeCode() == attractiveTypeCode);
-        }
-
-        switch (sortCode) {
-            case 1: // 최신 순
-                filteredItems = filteredItems
-                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate).reversed());
-                break;
-            case 2: // 날짜 순(오래된 순)
-                filteredItems = filteredItems
-                        .sorted(Comparator.comparing(LikeablePerson::getCreateDate));
-                break;
-            case 3: // 인기 많은 순
-                filteredItems = filteredItems
-                        .sorted(Comparator.comparingInt((LikeablePerson item) -> item.getFromInstaMember().getToLikeablePeople().size()).reversed());
-                break;
-            case 4: // 인기 적은 순
-                filteredItems = filteredItems
-                        .sorted(Comparator.comparingInt(item -> item.getFromInstaMember().getToLikeablePeople().size()));
-                break;
-            case 5: // 성별순 (여성, 남성) + 최신순
-                filteredItems = filteredItems
-                        .sorted(Comparator.comparing((LikeablePerson item) -> item.getFromInstaMember().getGender()).reversed()
-                                .thenComparing(Comparator.comparing(LikeablePerson::getCreateDate)).reversed());
-                break;
-            case 6: // 호감 사유 순 (외모, 성격, 능력) + 최신순
-                filteredItems = filteredItems
-                        .sorted(Comparator.comparing(LikeablePerson::getAttractiveTypeCode)
-                                .thenComparing(Comparator.comparing(LikeablePerson::getCreateDate)).reversed());
-                break;
-
-        }
-
-        return filteredItems.toList();
+    public List<LikeablePerson> findByToInstaMember(String username, @Nullable String gender, int attractiveTypeCode, int sortCode) {
+        return findByToInstaMember(instaMemberService.findByUsername(username).get(), gender, attractiveTypeCode, sortCode);
     }
+
+    public List<LikeablePerson> findByToInstaMember(InstaMember instaMember, @Nullable String gender, int attractiveTypeCode, int sortCode) {
+        return likeablePersonRepository.findQslByToInstaMember(instaMember, gender, attractiveTypeCode, sortCode);
+    }
+
 }
