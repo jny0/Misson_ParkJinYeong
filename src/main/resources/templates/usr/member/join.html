@@ -47,8 +47,11 @@
 
     <div class="hero-content flex-col">
         <div class="text-center">
-            <h2 class="text-4xl mt-5 mx-5 font-bold">그램그램 회원가입</h2>
-            <p class="py-6 mx-5">회원가입하고 그램그램 서비스를 이용해보세요</p>
+            <h2 class="text-4xl mb-5 mx-5 font-bold flex flex-col gap-3">
+                <span th:text="#{c.logoTextWithEmojiEn}"></span>
+                회원가입
+            </h2>
+            <p class="py-6 mx-5">회원가입하고 <span th:text="#{c.logoTextEn}"></span> 서비스를 이용해보세요</p>
         </div>
         <th:block th:if="false">
             <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">

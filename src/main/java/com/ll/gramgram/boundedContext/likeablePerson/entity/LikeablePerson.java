@@ -12,9 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 
 @Entity
@@ -45,7 +43,7 @@ public class LikeablePerson extends BaseEntity {
 //                .minusMinutes(LocalDateTime.now().getMinute())
 //                .minusSeconds(LocalDateTime.now().getSecond());
 //        return ModifyUnlockDateRemain.format(DateTimeFormatter.ofPattern("H시간 m분 후"));
-            return Ut.time.diffFormat1Human(LocalDateTime.now(), modifyUnlockDate);
+        return Ut.time.diffFormat1Human(LocalDateTime.now(), modifyUnlockDate);
     }
 
     //캡슐화를 위해 setter대신 메서드 추가

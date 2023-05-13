@@ -1,4 +1,3 @@
-
 <html layout:decorate="~{usr/layout/layout.html}">
 
 <head>
@@ -38,9 +37,11 @@
                                             <div class="flex justify-center gap-2">
                                         <span>
                                             <span th:text="${#temporals.format(notification.createDate, 'yy-MM-dd HH:mm')}"></span>
-                                            <span>, <span th:text="${notification.createDateAfterStrHuman}"></span></span>
+                                            <span>, <span
+                                                    th:text="${notification.createDateAfterStrHuman}"></span></span>
                                         </span>
-                                                <i th:if="${notification.isHot()}" class="fa-solid fa-fire text-red-400"></i>
+                                                <i th:if="${notification.isHot()}"
+                                                   class="fa-solid fa-fire text-red-400"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -76,8 +77,8 @@
                 </div>
 
 
+            </div>
         </div>
-    </div>
     </div>
 </main>
 

@@ -9,13 +9,14 @@ import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
 import com.ll.gramgram.boundedContext.instaMember.service.InstaMemberService;
 import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import com.ll.gramgram.boundedContext.likeablePerson.repository.LikeablePersonRepository;
+import com.ll.gramgram.boundedContext.likeablePerson.repository.LikeablePersonRepositoryCustom;
 import com.ll.gramgram.boundedContext.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -66,6 +67,10 @@ public class LikeablePersonService {
         return likeablePersonRepository.findByFromInstaMemberId(fromInstaMemberId);
     }
 
+    public List<LikeablePerson> findByToInstaMemberUsername(String username) {
+        return likeablePersonRepository.findByToInstaMember_username(username);
+    }
+
 
     public Optional<LikeablePerson> findById(Long Id) {
         return likeablePersonRepository.findById(Id);
@@ -98,7 +103,7 @@ public class LikeablePersonService {
             return RsData.of("F-2", "취소 권한이 없습니다.");
         }
 
-        if(!likeablePerson.isModifyUnlocked()){
+        if (!likeablePerson.isModifyUnlocked()) {
             return RsData.of("F-3", "취소 가능 시간이 아닙니다.");
         }
 
@@ -170,7 +175,7 @@ public class LikeablePersonService {
     }
 
     @Transactional
-    public RsData<LikeablePerson> modifyAttractive(Member actor, String username, int attractiveTypeCode)  {
+    public RsData<LikeablePerson> modifyAttractive(Member actor, String username, int attractiveTypeCode) {
 
         List<LikeablePerson> fromLikeablePeople = actor.getInstaMember().getFromLikeablePeople();
 
@@ -207,7 +212,7 @@ public class LikeablePersonService {
             return RsData.of("F-2", "해당 호감 사유를 변경할 권한이 없습니다.");
         }
 
-        if(!likeablePerson.isModifyUnlocked()){
+        if (!likeablePerson.isModifyUnlocked()) {
             return RsData.of("F-3", "변경 가능 시간이 아닙니다.");
         }
 
@@ -216,6 +221,14 @@ public class LikeablePersonService {
 
     public Optional<LikeablePerson> findByFromInstaMember_usernameAndToInstaMember_username(String fromInstaMemberUsername, String toInstaMemberUsername) {
         return likeablePersonRepository.findByFromInstaMember_usernameAndToInstaMember_username(fromInstaMemberUsername, toInstaMemberUsername);
+    }
+
+    public List<LikeablePerson> findByToInstaMember(String username, @Nullable String gender, int attractiveTypeCode, int sortCode) {
+        return findByToInstaMember(instaMemberService.findByUsername(username).get(), gender, attractiveTypeCode, sortCode);
+    }
+
+    public List<LikeablePerson> findByToInstaMember(InstaMember instaMember, @Nullable String gender, int attractiveTypeCode, int sortCode) {
+        return likeablePersonRepository.findQslByToInstaMember(instaMember, gender, attractiveTypeCode, sortCode);
     }
 
 }

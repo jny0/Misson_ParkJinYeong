@@ -1,7 +1,7 @@
 <html layout:decorate="~{usr/layout/layout.html}">
 
 <head>
-    <title>메인</title>
+    <title th:text="#{c.whatIsThisService}"></title>
 </head>
 
 <body>
@@ -9,9 +9,11 @@
 <main layout:fragment="main">
     <div class="hero-content text-center">
         <div>
-            <h1 class="text-4xl font-bold">그램그램</h1>
+            <h1 class="text-4xl font-bold">
+                <span th:text="#{c.logoTextWithEmojiEn}"></span>
+            </h1>
             <div class="py-6 mb-5">
-                <span><i class="fa-regular fa-face-laugh"></i> 그램그램은 당신의 호감을 응원합니다.</span>
+                <span><i class="fa-regular fa-face-laugh"></i>  당신의 호감을 응원합니다.</span>
             </div>
             <a th:if="${@rq.logout}" class="btn btn-primary btn-wide" href="/usr/member/login">시작하기</a>
         </div>

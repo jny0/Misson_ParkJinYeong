@@ -1,26 +1,36 @@
 <html layout:decorate="~{usr/layout/layout.html}">
 
 <head>
-    <title>시작하기</title>
+    <title th:text="#{c.pageNameStart}"></title>
 </head>
 
 <body>
 
 <main layout:fragment="main">
+    <div class="hidden" id="msg-loginFormNeedInputUsername" th:text="#{c.loginFormNeedInputUsername}"></div>
+    <div class="hidden" id="msg-loginFormNeedInputUsernameMoreThan"
+         th:text="${@rq.getCText('c.loginFormNeedInputUsernameMoreThan', loginFormInputUsernameValueMinLength)}"></div>
+    <div class="hidden" id="msg-loginFormNeedInputPassword" th:text="#{c.loginFormNeedInputPassword}"></div>
+    <div class="hidden" id="msg-loginFormNeedInputPasswordMoreThan"
+         th:text="#{c.loginFormNeedInputPasswordMoreThan(${loginFormInputPasswordValueMinLength})}"></div>
+
     <script>
+        const loginFormInputUsernameValueMinLength = 4;
+        const loginFormInputPasswordValueMinLength = 4;
+
         function LoginForm__submit(form) {
             // username 이(가) 올바른지 체크
 
             form.username.value = form.username.value.trim(); // 입력란의 입력값에 있을지 모르는 좌우공백제거
 
             if (form.username.value.length == 0) {
-                toastWarning('계정을 입력해주세요.');
+                toastWarning($("#msg-loginFormNeedInputUsername").text());
                 form.username.focus();
                 return;
             }
 
-            if (form.username.value.length < 4) {
-                toastWarning('계정을 4자 이상 입력해주세요.');
+            if (form.username.value.length < loginFormInputUsernameValueMinLength) {
+                toastWarning($("#msg-loginFormNeedInputUsernameMoreThan").text());
                 form.username.focus();
                 return;
             }
@@ -31,12 +41,12 @@
 
             if (form.password.value.length == 0) {
                 form.password.focus();
-                toastWarning('비밀번호를 입력해주세요.');
+                toastWarning($("#msg-loginFormNeedInputPassword").text());
                 return;
             }
 
-            if (form.password.value.length < 4) {
-                toastWarning('비밀번호를 4자 이상 입력해주세요.');
+            if (form.password.value.length < loginFormInputPasswordValueMinLength) {
+                toastWarning($("#msg-loginFormNeedInputPasswordMoreThan").text());
                 form.password.focus();
                 return;
             }
@@ -48,51 +58,59 @@
 
     <div class="hero-content flex-col">
         <div class="text-center">
-            <h2 class="text-4xl mb-5 mx-5 font-bold">그램그램 시작하기</h2>
+            <h2 class="text-4xl my-5 mx-5 font-bold flex flex-col gap-3">
+                <span th:text="#{c.logoTextWithEmojiEn}"></span>
+                <span th:text="#{c.pageNameStart}"></span>
+            </h2>
         </div>
         <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             <div class="card-body">
                 <form th:action method="POST" class="flex flex-col gap-6 m-1"
                       onsubmit="LoginForm__submit(this); return false;">
-                    <th:block th:if="${@rq.refererAdminPage}">
+                    <th:block th:if="${@rq.refererAdminPage or param.admin != null}">
                         <div class="form-control">
                             <label class="label">
-                                <span class="label-text">ID</span>
+                                <span class="label-text">
+                                    <span th:text="#{c.loginFormUsername}"></span>
+                                </span>
                             </label>
-                            <input type="text" name="username" maxlength="30" placeholder="계정"
-                                   class="input input-bordered">
+                            <input type="text" name="username" maxlength="30" th:placeholder="#{c.loginFormUsername}"
+                                   class="input input-bordered" autofocus/>
                         </div>
                         <div class="form-control">
                             <label class="label">
-                                <span class="label-text">Password</span>
+                                <span class="label-text">
+                                    <span th:text="#{c.loginFormPassword}"></span>
+                                </span>
                             </label>
-                            <input type="password" name="password" maxlength="30" placeholder="비밀번호"
-                                   class="input input-bordered">
+                            <input type="password" name="password" maxlength="30"
+                                   th:placeholder="#{c.loginFormPassword}"
+                                   class="input input-bordered"/>
                         </div>
                         <div class="form-control gap-4">
-                            <input type="submit" value="로그인" class="btn btn-primary">
+                            <input type="submit" th:value="#{c.pageNameStart}" class="btn btn-primary">
                             <div class="divider"></div>
                         </div>
                     </th:block>
 
                     <a class="btn btn-outline btn-warning flex gap-2" href="/oauth2/authorization/kakao">
                         <i class="fa-solid fa-comment"></i>
-                        카카오로 시작하기
+                        <span class="normal-case" th:text="#{c.startWithKakao}"></span>
                     </a>
 
                     <a class="btn btn-outline btn-error flex gap-2" href="/oauth2/authorization/google">
                         <i class="fa-brands fa-google"></i>
-                        구글로 시작하기
+                        <span class="normal-case" th:text="#{c.startWithGoogle}"></span>
                     </a>
 
                     <a class="btn btn-outline btn-success flex gap-2" href="/oauth2/authorization/naver">
                         <i class="fa-solid fa-n"></i>
-                        네이버로 시작하기
+                        <span class="normal-case" th:text="#{c.startWithNaver}"></span>
                     </a>
 
                     <a class="btn btn-outline btn-info flex gap-2" href="/oauth2/authorization/facebook">
                         <i class="fa-brands fa-facebook"></i>
-                        페이스북으로 시작하기
+                        <span class="normal-case" th:text="#{c.startWithFacebook}"></span>
                     </a>
 
                 </form>

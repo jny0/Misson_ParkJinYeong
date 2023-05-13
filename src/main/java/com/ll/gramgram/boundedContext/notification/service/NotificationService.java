@@ -17,7 +17,7 @@ import java.util.List;
 public class NotificationService {
     private final NotificationRepository notificationRepository;
 
-    public List<Notification> findByToInstaMember(InstaMember toInstaMember){
+    public List<Notification> findByToInstaMember(InstaMember toInstaMember) {
         return notificationRepository.findByToInstaMemberOrderByIdDesc(toInstaMember);
     }
 

@@ -70,17 +70,19 @@
                             </h2>
                         </div>
 
+                        <div class="divider"></div>
                         <div class="form-control mt-5">
+                            <p class="mb-2"> 상대의 인스타 계정</p>
+                            <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));"
+                               target="_blank"
+                               class="block mb-3 text-sm break-all underline text-blue-400">
+                                <span>https://instagram.com/</span><span class="text-red-300"></span>
+                            </a>
                             <input type="text" name="username" autocomplete="off" maxlength="30" autofocus
                                    placeholder="호감 상대의 인스타 계정" class="input input-bordered"
                                    onchange="$(this).keyup();"
-                                   onkeyup="$(this).next().children(':last-child').text(this.value.trim());"
+                                   onkeyup="$(this).prev().children(':last-child').text(this.value.trim());"
                                    onpaste="setTimeoutZero(() => $(this).keyup());"/>
-                            <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));"
-                               target="_blank"
-                               class="block mt-3 text-sm break-all underline text-blue-400">
-                                <span>https://instagram.com/</span><span class="text-red-300"></span>
-                            </a>
                             <script>
                                 $(`input[name="username"]:last`).keyup();
                             </script>

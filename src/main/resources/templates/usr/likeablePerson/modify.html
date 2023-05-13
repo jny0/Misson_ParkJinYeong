@@ -18,9 +18,9 @@
                 return;
             }
 
-            if(A)
+            if (A)
 
-            form.submit(); // 폼 발송
+                form.submit(); // 폼 발송
         }
     </script>
 
@@ -62,7 +62,8 @@
                                 <tr>
                                     <td>기존 호감 사유</td>
                                     <td>
-                                        <span class="badge badge-lg badge-secondary" th:utext="${likeablePerson.attractiveTypeDisplayNameWithIcon}"></span>
+                                        <span class="badge badge-lg badge-secondary"
+                                              th:utext="${likeablePerson.attractiveTypeDisplayNameWithIcon}"></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -70,14 +71,16 @@
                                     <td>
                                         <div class="flex flex-col justify-center gap-4">
                                             <label class="flex gap-2 items-center cursor-pointer">
-                                                <input type="radio" name="attractiveTypeCode" value="1" class="radio peer">
+                                                <input type="radio" name="attractiveTypeCode" value="1"
+                                                       class="radio peer">
                                                 <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
                                                     <i class="fa-solid fa-person-rays"></i>
                                                     외모
                                                 </span>
                                             </label>
                                             <label class="flex gap-2 items-center cursor-pointer">
-                                                <input type="radio" name="attractiveTypeCode" value="2" class="radio peer">
+                                                <input type="radio" name="attractiveTypeCode" value="2"
+                                                       class="radio peer">
                                                 <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
                                                     <i class="fa-regular fa-face-smile"></i>
                                                     성격
@@ -85,7 +88,8 @@
                                             </label>
 
                                             <label class="flex gap-2 items-center cursor-pointer">
-                                                <input type="radio" name="attractiveTypeCode" value="3" class="radio peer">
+                                                <input type="radio" name="attractiveTypeCode" value="3"
+                                                       class="radio peer">
                                                 <span class="text-gray-400 peer-checked:text-gray-900 peer-checked:font-bold peer-focus:text-gray-700">
                                                     <i class="fa-solid fa-people-roof"></i>
                                                     능력
@@ -111,11 +115,13 @@
                     </form>
 
                     <div class="text-center mt-4">
-                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/likeablePerson/like" class="btn btn-link">
+                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/likeablePerson/like"
+                           class="btn btn-link">
                             <span><i class="fa-solid fa-heart-circle-plus mr-1"></i>
                                 호감표시&nbsp;</span>
                         </a>
-                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/likeablePerson/list" class="btn btn-link">
+                        <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/likeablePerson/list"
+                           class="btn btn-link">
                             <span><i class="fa-solid fa-list-ol mr-1"></i>
                                 호감목록</span>
                         </a>
